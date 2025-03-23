@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="let&apos;s_go_lucario" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/let&apos;s_go_lucario" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/let&apos;s_go_lucario" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="-fexceptions" />
+		</Compiler>
+		<Unit filename="base_function.cpp" />
+		<Unit filename="base_function.h" />
+		<Unit filename="bullet_object.cpp" />
+		<Unit filename="bullet_object.h" />
+		<Unit filename="constants.h" />
+		<Unit filename="main.cpp" />
+		<Unit filename="main_character.cpp" />
+		<Unit filename="main_character.h" />
+		<Unit filename="map_object.cpp" />
+		<Unit filename="map_object.h" />
+		<Unit filename="mob_object.cpp" />
+		<Unit filename="mob_object.h" />
+		<Extensions>
+			<lib_finder disable_auto="1" />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
