@@ -57,4 +57,10 @@ const int right_wall[11][4]={
     {2928, 1176, 2928, 1776},
     {4224, 624, 4224, 1440}
 };
+
+const int mob_coordinates[2][2]={
+    {1700, 500},
+    {1700, 700}
+};
+
 #endif // _CONSTANTS_H

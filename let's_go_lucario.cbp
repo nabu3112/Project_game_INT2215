@@ -44,6 +44,8 @@
 		<Unit filename="map_object.h" />
 		<Unit filename="mob_object.cpp" />
 		<Unit filename="mob_object.h" />
+		<Unit filename="other_on_screen.cpp" />
+		<Unit filename="other_on_screen.h" />
 		<Extensions>
 			<lib_finder disable_auto="1" />
 		</Extensions>

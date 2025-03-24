@@ -8,19 +8,21 @@
 	<SDL_image.h>
 	<iostream>
 
-1742644332 c:\users\hello\onedrive - vnu.edu.vn\desktop\let's_go_lucario\constants.h
+1742806484 c:\users\hello\onedrive - vnu.edu.vn\desktop\let's_go_lucario\constants.h
 
-1742729722 source:c:\users\hello\onedrive - vnu.edu.vn\desktop\let's_go_lucario\main.cpp
+1742815068 source:c:\users\hello\onedrive - vnu.edu.vn\desktop\let's_go_lucario\main.cpp
 	<iostream>
 	<SDL.h>
 	<SDL_image.h>
+	<vector>
 	"base_function.h"
 	"constants.h"
 	"main_character.h"
 	"map_object.h"
 	"mob_object.h"
+	"other_on_screen.h"
 
-1742728381 c:\users\hello\onedrive - vnu.edu.vn\desktop\let's_go_lucario\main_character.h
+1742813305 c:\users\hello\onedrive - vnu.edu.vn\desktop\let's_go_lucario\main_character.h
 	<SDL.h>
 	<SDL_image.h>
 	<iostream>
@@ -28,15 +30,14 @@
 	"constants.h"
 	"base_function.h"
 	"map_object.h"
-	"mob_object.h"
 
-1742728881 source:c:\users\hello\onedrive - vnu.edu.vn\desktop\let's_go_lucario\main_character.cpp
+1742815068 source:c:\users\hello\onedrive - vnu.edu.vn\desktop\let's_go_lucario\main_character.cpp
 	"main_character.h"
 
 1742729675 source:c:\users\hello\onedrive - vnu.edu.vn\desktop\let's_go_lucario\map_object.cpp
 	"map_object.h"
 
-1742729675 c:\users\hello\onedrive - vnu.edu.vn\desktop\let's_go_lucario\map_object.h
+1742811986 c:\users\hello\onedrive - vnu.edu.vn\desktop\let's_go_lucario\map_object.h
 	<iostream>
 	<cmath>
 	<fstream>
@@ -44,18 +45,17 @@
 	"base_function.h"
 	"constants.h"
 
-1742723267 c:\users\hello\onedrive - vnu.edu.vn\desktop\let's_go_lucario\mob_object.h
+1742815378 c:\users\hello\onedrive - vnu.edu.vn\desktop\let's_go_lucario\mob_object.h
 	<iostream>
 	<cmath>
 	<SDL_image.h>
 	<vector>
 	"base_function.h"
 	"constants.h"
-	"main_character.h"
 	"map_object.h"
 	"bullet_object.h"
 
-1742723267 source:c:\users\hello\onedrive - vnu.edu.vn\desktop\let's_go_lucario\mob_object.cpp
+1742814819 source:c:\users\hello\onedrive - vnu.edu.vn\desktop\let's_go_lucario\mob_object.cpp
 	"mob_object.h"
 
 1742567204 c:\users\hello\onedrive - vnu.edu.vn\desktop\let's_go_lucario\random.h
@@ -77,15 +77,22 @@
 	<SDL_image.h>
 	<iostream>
 
-1742719475 source:c:\users\hello\onedrive - vnu.edu.vn\desktop\let's_go_lucario\base_function.cpp
+1742741970 source:c:\users\hello\onedrive - vnu.edu.vn\desktop\let's_go_lucario\base_function.cpp
 	"base_function.h"
 	"constants.h"
 
-1742723306 c:\users\hello\onedrive - vnu.edu.vn\desktop\let's_go_lucario\bullet_object.h
+1742814477 c:\users\hello\onedrive - vnu.edu.vn\desktop\let's_go_lucario\bullet_object.h
 	<SDL_image.h>
 	"base_function.h"
 	"constants.h"
 
-1742733455 source:c:\users\hello\onedrive - vnu.edu.vn\desktop\let's_go_lucario\bullet_object.cpp
+1742812088 source:c:\users\hello\onedrive - vnu.edu.vn\desktop\let's_go_lucario\bullet_object.cpp
 	"bullet_object.h"
+
+1742795094 source:c:\users\hello\onedrive - vnu.edu.vn\desktop\let's_go_lucario\other_on_screen.cpp
+	"other_on_screen.h"
+
+1742794896 c:\users\hello\onedrive - vnu.edu.vn\desktop\let's_go_lucario\other_on_screen.h
+	<SDL_image.h>
+	"base_function.h"
 

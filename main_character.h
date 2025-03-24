@@ -11,9 +11,6 @@ using namespace std;
 #include "constants.h"
 #include "base_function.h"
 #include "map_object.h"
-#include "mob_object.h"
-
-struct mob_object_;
 
 struct mainc {
     float x_on_map= 1824;
@@ -23,8 +20,9 @@ struct mainc {
     float dy=0;
 
     int hp=100;
-    int running_speed=10;
-    int attacking_speed=10;
+    int running_speed = 10;
+    int slow_speed = 5;
+    int base_speed = 10;
     int energy=0;
     int daim_punch = 5;
     int daim_kick = 10;
@@ -34,11 +32,14 @@ struct mainc {
     SDL_Texture* main_punch;
     SDL_Texture* main_kick;
     SDL_Texture* texture_now;
+    SDL_Texture* paralyzed_texture;
 
     int size_frame=96;
     int state=0;
     bool left_or_right=1;
     bool is_attacking=0;
+    bool punch_or_kick=0;
+    bool is_paralyzed = 0;
 
     int stand_frame=1;
     int run_frame=1;
@@ -50,15 +51,24 @@ struct mainc {
     SDL_FRect kick_box;
     SDL_Rect sprite;
     SDL_Rect frame_;
+    SDL_Rect paralyzed_frame;
 
     SDL_Event event;
     bool keys[SDL_NUM_SCANCODES]= {false};
+
+    Uint32 paralyzed_start_time = 0;
+    Uint32 paralyzed_durution = 2000;
 
     mainc(SDL_Renderer* renderer){
         main_stand = loadTexture("Image//lucario_stand.png", renderer);
         main_run= loadTexture("Image//lucario_run.png", renderer);
         main_punch= loadTexture("Image//lucario_punch.png", renderer);
         main_kick= loadTexture("Image//lucario_kick.png", renderer);
+        paralyzed_texture = loadTexture("Image//paralyzed2.png", renderer);
+
+        SDL_QueryTexture(paralyzed_texture, NULL, NULL, &paralyzed_frame.w, &paralyzed_frame.h);
+        paralyzed_frame.x = 72;
+        paralyzed_frame.y = 90;
     }
 
     ~mainc(){
@@ -80,9 +90,11 @@ struct mainc {
     SDL_Rect set_clips_punch();
     SDL_Rect set_clips_kick();
 
-    void playMoveAnimation(SDL_Renderer* renderer);
-    void playAttackAnimation(SDL_Renderer* renderer, map_object_& map_game, mob_object_& mob, Uint32& current_time);
+    void playMainAnimation(SDL_Renderer* renderer);
     bool check_alive();
+    void attack_to_mob(SDL_FRect& mob_hitbox, int& mob_hp);
+    void render_effect_paralyzed(SDL_Renderer* renderer);
+    void handle_paralyzed(SDL_Renderer* renderer);
 };
 
 

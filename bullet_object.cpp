@@ -21,8 +21,8 @@ SDL_Rect bullet_object_::set_clips_bullet()
 void bullet_object_::play_bullet_animation(SDL_Renderer* renderer, const float& x_mob , const float& y_mob,const float& x_main, const float& y_main, const float& mob_size)
 {
     SDL_QueryTexture(bullet_texture, NULL, NULL, &width_bullet_frame, &height_bullet_frame);
-    sprite.w = float(width_bullet_frame/4);
-    sprite.h = float(height_bullet_frame);
+    sprite.w = width_bullet_frame*zoom_level/4;
+    sprite.h = height_bullet_frame*zoom_level;
     sprite.x = x_bullet_on_map - x_main + SCREEN_WIDTH/2 - 48 ;
     sprite.y = y_bullet_on_map - y_main + SCREEN_HEIGHT/2 - 48 ;
     frame_ = set_clips_bullet();
@@ -38,7 +38,7 @@ void bullet_object_::bullet_move()
     x_bullet_on_map += dx;
     y_bullet_on_map += dy;
 
-    hitbox = {x_bullet_on_map, y_bullet_on_map, bullet_size, bullet_size};
+    hitbox = {x_bullet_on_map, y_bullet_on_map, bullet_size*zoom_level, bullet_size*zoom_level};
 }
 bool bullet_object_::check_bullet_to_map()
 {
@@ -83,10 +83,16 @@ bool bullet_object_::check_bullet_to_map()
     return 0;
 }
 
-bool bullet_object_::daim_on_main(const SDL_FRect& main_hitbox, int& main_hp)
+bool bullet_object_::daim_on_main(const SDL_FRect& main_hitbox, int& main_hp, int& main_speed, const int& main_slow_speed, bool& main_is_paralyzed, Uint32& paralyzed_start_time)
 {
     if(SDL_HasIntersectionF(main_hitbox, hitbox)){
         main_hp -= daim;
+        if(zoom_level*2 >= 4){
+            main_is_paralyzed = 1;
+            main_speed = main_slow_speed;
+            paralyzed_start_time = SDL_GetTicks();
+        }
+        //cout<<main_is_paralyzed<<endl;
         return 1;
     }else{
         return 0;

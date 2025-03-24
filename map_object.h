@@ -40,7 +40,7 @@ struct map_object_{
         SDL_DestroyTexture( map_layer1 );
         map_layer2 = NULL;
     }
-    ifstream map_file;
+
     void init_map_coordinate(const float& x_main, const float& y_main);
     void renderTexture_Map(SDL_Renderer* renderer, int layer);
     void check_to_map(SDL_FRect& hitbox, float& x, float& y, float& dx, float& dy);
