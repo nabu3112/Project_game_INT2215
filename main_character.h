@@ -24,8 +24,8 @@ struct mainc {
     int slow_speed = 5;
     int base_speed = 10;
     int energy=0;
-    int daim_punch = 5;
-    int daim_kick = 10;
+    int damage_punch = 5;
+    int damage_kick = 10;
 
     SDL_Texture* main_stand;
     SDL_Texture* main_run;
@@ -40,6 +40,7 @@ struct mainc {
     bool is_attacking=0;
     bool punch_or_kick=0;
     bool is_paralyzed = 0;
+    bool deal_damage = 0;
 
     int stand_frame=1;
     int run_frame=1;

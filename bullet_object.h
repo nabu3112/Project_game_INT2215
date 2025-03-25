@@ -16,7 +16,7 @@ struct bullet_object_{
     float direction_bullet_y;
 
     int speed=5;
-    int daim=2;
+    int damage=2;
 
     int state_frame=1;
     int bullet_size;
@@ -41,7 +41,7 @@ struct bullet_object_{
         direction_bullet_y = vector_ymob_to_main;
         if(_zoom_level > 0){
             zoom_level = _zoom_level/2;
-            daim *= zoom_level;
+            damage *= zoom_level;
         }
     }
     ~bullet_object_(){

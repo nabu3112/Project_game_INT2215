@@ -20,7 +20,7 @@ void mainc::main_move(bool& running, map_object_& map_game)
         is_attacking = 1;
         punch_or_kick = 0;
     }
-    else if(keys[SDL_SCANCODE_D]){
+    else if(keys[SDL_SCANCODE_D] && energy ==4){
         state=3;
         is_attacking = 1;
         punch_or_kick = 1;
@@ -113,6 +113,7 @@ void mainc::set_clips_kick()
 
 void mainc::playMainAnimation(SDL_Renderer* renderer)
 {
+    sprite.x= SCREEN_WIDTH/2 - size_frame/2;
     if(state==0){
         frame_ = stand_clip[(stand_frame-1)/4];
         sprite.w = width_stand;
@@ -137,11 +138,15 @@ void mainc::playMainAnimation(SDL_Renderer* renderer)
             state=0;
             is_attacking = 0;
             if(energy<4) energy++;
+            deal_damage =1;
         }
 
 	}else if(state==3 && energy==4){
 	    frame_ = kick_clip[(kick_frame-1)/3];
         sprite.w = width_kick;
+        if(!left_or_right){
+            sprite.x = SCREEN_WIDTH/2 - size_frame/2 - (width_kick - size_frame);
+        }
         kick_frame++;
         texture_now = main_kick;
         if(kick_frame > 12){
@@ -149,6 +154,7 @@ void mainc::playMainAnimation(SDL_Renderer* renderer)
             state=0;
             is_attacking = 0;
             energy=0;
+            deal_damage =1;
         }
 	}
 	if(left_or_right){
@@ -174,20 +180,24 @@ void mainc::attack_to_mob(SDL_FRect& mob_hitbox, int& mob_hp)
         kick_box = {x_on_map + 80, y_on_map + 42, 32, 44};
     }else{
         punch_box = {x_on_map , y_on_map + size_frame/2, size_frame/3, size_frame/4};
-        kick_box = {x_on_map + 32, y_on_map + 42, 32, 44};
+        kick_box = {x_on_map + 32 -(width_kick - size_frame), y_on_map + 42, 32, 44};
     }
-    if(SDL_HasIntersectionF( punch_box, mob_hitbox) && is_attacking && !punch_or_kick && punch_frame==1){
-        mob_hp -= daim_punch;
-        cout<<mob_hp<<endl;
-    }else if(SDL_HasIntersectionF( kick_box, mob_hitbox) && is_attacking && punch_or_kick && kick_frame==1){
-        mob_hp -= daim_kick;
-        cout<<mob_hp<<endl;
+    if(!punch_or_kick){
+        if(SDL_HasIntersectionF( punch_box, mob_hitbox) ){
+            mob_hp -= damage_punch;
+            cout<<mob_hp<<endl;
+        }
+    }else{
+        if(SDL_HasIntersectionF( kick_box, mob_hitbox) ){
+            mob_hp -= damage_kick;
+            cout<<mob_hp<<endl;
+        }
     }
+    deal_damage =0;
 }
 
 void mainc::render_effect_paralyzed(SDL_Renderer* renderer)
 {
-    //SDL_QueryTexture(paralyzed_texture, NULL, NULL, &paralyzed_frame.w, &paralyzed_frame.h);
     SDL_RenderCopy(renderer, paralyzed_texture, NULL, &paralyzed_frame);
 }
 

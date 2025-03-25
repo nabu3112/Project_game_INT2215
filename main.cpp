@@ -77,16 +77,18 @@ int main(int argc, char *argv[])
         for(int i = all_mob.size()-1; i>=0; i--){
             all_mob[i].set_distance_to_main(mcharacter.x_on_map, mcharacter.y_on_map, mcharacter.size_frame);
             if(all_mob[i].in_radian_of_main){
-                mcharacter.attack_to_mob(all_mob[i].mob_hitbox, all_mob[i].hp);
+                if(mcharacter.is_attacking && mcharacter.deal_damage){
+                    mcharacter.attack_to_mob(all_mob[i].mob_hitbox, all_mob[i].hp);
+                }
                 handle_mob(renderer, map_game, all_mob[i], mcharacter);
                 if(all_mob[i].hp <= 0){
                     all_mob.erase(all_mob.begin() + i);
                 }
             }
         }
+
         mcharacter.playMainAnimation(renderer);
         mcharacter.handle_paralyzed(renderer);
-        //cout<<all_mob[all_mob.size() - 1].hp<<endl;
 
         map_game.renderTexture_Map(renderer, 2);
         health_bar.render_health_bar(renderer, mcharacter.hp, mcharacter.energy);
@@ -104,4 +106,3 @@ int main(int argc, char *argv[])
 
     return 0;
 }
-

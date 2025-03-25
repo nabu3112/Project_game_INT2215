@@ -86,7 +86,7 @@ bool bullet_object_::check_bullet_to_map()
 bool bullet_object_::daim_on_main(const SDL_FRect& main_hitbox, int& main_hp, int& main_speed, const int& main_slow_speed, bool& main_is_paralyzed, Uint32& paralyzed_start_time)
 {
     if(SDL_HasIntersectionF(main_hitbox, hitbox)){
-        main_hp -= daim;
+        main_hp -= damage;
         if(zoom_level*2 >= 4){
             main_is_paralyzed = 1;
             main_speed = main_slow_speed;

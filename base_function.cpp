@@ -62,4 +62,3 @@ SDL_bool SDL_HasIntersectionF(const SDL_FRect& A, const SDL_FRect& B)
         return SDL_FALSE;
     }
 }
-
