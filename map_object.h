@@ -39,7 +39,6 @@ struct map_object_{
         map_layer1 = NULL;
         SDL_DestroyTexture( map_layer1 );
         map_layer2 = NULL;
-        cout<<2<<endl;
     }
 
     void init_map_coordinate(const float& x_main, const float& y_main);

@@ -25,6 +25,7 @@ struct mob_object_{
     float vector_y_to_main;
     float distance_to_main;
 
+    int max_hp=5;
     int hp=5;
     int running_speed=10;
     int attack_speed=5;
@@ -39,29 +40,42 @@ struct mob_object_{
     int frame_state=1;
     int mob_size;
     float zoom_level;
+    int healthbar_height;
 
     vector<bullet_object_> skill;
 
     SDL_Rect frame_;
     SDL_FRect mob_hitbox;
     SDL_FRect sprite;
+    SDL_FRect healthbar_frame;
+    SDL_FRect blood_healthbar;
+
     SDL_Texture* texture_mob;
     SDL_Texture* texture_skill;
+    SDL_Texture* texture_healthbar;
 
     Uint32 last_shoot_time =0;
 
-    mob_object_(SDL_Renderer* renderer, SDL_Texture* mob_texture, SDL_Texture* bullet_texture, int _x_on_map, int _y_on_map, float _zoom_level){
+    mob_object_(SDL_Renderer* renderer, SDL_Texture* mob_texture, SDL_Texture* bullet_texture, SDL_Texture* mob_healthbar, int _x_on_map, int _y_on_map, float _zoom_level){
         texture_mob = mob_texture;
         texture_skill = bullet_texture;
+        texture_healthbar = mob_healthbar;
+
         SDL_QueryTexture(texture_mob, NULL, NULL, NULL, &mob_size);
+        SDL_QueryTexture(texture_healthbar, NULL, NULL, NULL, &healthbar_height);
 
         x_on_map = _x_on_map;
         y_on_map = _y_on_map;
 
+        healthbar_frame.w = mob_size * _zoom_level;
+        healthbar_frame.h = healthbar_height/4 * _zoom_level;
+        blood_healthbar.h = healthbar_frame.h;
+
         if(_zoom_level > 0){
             zoom_level = _zoom_level;
             running_speed /= _zoom_level;
-            hp*= pow(2,_zoom_level);
+            max_hp *= pow(2,_zoom_level);
+            hp = max_hp;
         }
     }
     /*~mob_object_(){
@@ -76,6 +90,7 @@ struct mob_object_{
     void loadAnimationMob(SDL_Renderer* renderer, const float& x, const float& y);
     void mob_attack(SDL_Renderer* renderer, const float& x_main, const float& y_main, const int& size_main);
     void handle_bullet_move(SDL_Renderer* renderer, const float& x_main, const float& y_main, const SDL_FRect& hitbox_main, int& main_hp, int& main_speed, const int& main_slow_speed, bool& main_is_paralyzed, Uint32& paralyzed_start_time);
+    void mob_healthbar(SDL_Renderer* renderer);
 };
 
 #endif // _MOB_OBJECT_H

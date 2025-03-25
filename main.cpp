@@ -20,6 +20,7 @@ void handle_mob(SDL_Renderer* renderer, map_object_& map_game, mob_object_& mob,
 {
     mob.mob_move(map_game, mcharacter.x_on_map, mcharacter.y_on_map, mcharacter.dx, mcharacter.dy);
     mob.loadAnimationMob(renderer, mcharacter.x_on_map, mcharacter.y_on_map);
+    mob.mob_healthbar(renderer);
 
     current_time = SDL_GetTicks();
     if (current_time > mob.last_shoot_time + 2000)
@@ -30,12 +31,11 @@ void handle_mob(SDL_Renderer* renderer, map_object_& map_game, mob_object_& mob,
     mob.handle_bullet_move(renderer, mcharacter.x_on_map, mcharacter.y_on_map, mcharacter.hitbox, mcharacter.hp, mcharacter.running_speed, mcharacter.slow_speed, mcharacter.is_paralyzed, mcharacter.paralyzed_start_time);
 }
 
-void init_mob(vector<mob_object_>& all_mob, SDL_Renderer* renderer, SDL_Texture* mob_texture, SDL_Texture* bullet_texture)
+void init_mob(vector<mob_object_>& all_mob, SDL_Renderer* renderer, SDL_Texture* mob_texture, SDL_Texture* bullet_texture, SDL_Texture* mob_healthbar_texture)
 {
     for(int i=0; i<2; i++){
-        mob_object_ mob(renderer, mob_texture, bullet_texture, mob_coordinates[i][0], mob_coordinates[i][1], 1.5);
+        mob_object_ mob(renderer, mob_texture, bullet_texture, mob_healthbar_texture, mob_coordinates[i][0], mob_coordinates[i][1], 1.5);
         all_mob.push_back(mob);
-
     }
 }
 
@@ -44,22 +44,23 @@ int main(int argc, char *argv[])
     SDL_Window* window = initSDL(SCREEN_WIDTH, SCREEN_HEIGHT, WINDOW_TITLE);
     SDL_Renderer* renderer = createRenderer(window);
 
-    mainc mcharacter(renderer);
-    mcharacter.set_clips_stand();
-    mcharacter.set_clips_run();
-    mcharacter.set_clips_punch();
-    mcharacter.set_clips_kick();
-
     map_object_ map_game(renderer);
 
     SDL_Texture* mob_texture = loadTexture("Image//rotom.png", renderer);
     SDL_Texture* bullet_texture = loadTexture("Image//electro_ball.png", renderer);
+    SDL_Texture* mob_healthbar_texture = loadTexture("Image//mob_healthbar.png", renderer);
 
     vector <mob_object_> all_mob;
-    init_mob(all_mob, renderer, mob_texture, bullet_texture);
+    init_mob(all_mob, renderer, mob_texture, bullet_texture, mob_healthbar_texture);
 
-    mob_object_ mob(renderer, mob_texture, bullet_texture, 720, 1824, 4);
+    mob_object_ mob(renderer, mob_texture, bullet_texture, mob_healthbar_texture, 720, 1824, 4);
     all_mob.push_back(mob);
+
+    mainc mcharacter(renderer, all_mob.size());
+    mcharacter.set_clips_stand();
+    mcharacter.set_clips_run();
+    mcharacter.set_clips_punch();
+    mcharacter.set_clips_kick();
 
     health_bar_object health_bar(renderer);
 
@@ -83,6 +84,7 @@ int main(int argc, char *argv[])
                 handle_mob(renderer, map_game, all_mob[i], mcharacter);
                 if(all_mob[i].hp <= 0){
                     all_mob.erase(all_mob.begin() + i);
+                    mcharacter.index_to_win --;
                 }
             }
         }
@@ -99,8 +101,10 @@ int main(int argc, char *argv[])
 
     SDL_DestroyTexture(mob_texture);
     SDL_DestroyTexture(bullet_texture);
+    SDL_DestroyTexture(mob_healthbar_texture);
     mob_texture = NULL;
     bullet_texture = NULL;
+    mob_healthbar_texture = NULL;
 
     quitSDL(window, renderer);
 

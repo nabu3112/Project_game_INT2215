@@ -96,4 +96,22 @@ void mob_object_::handle_bullet_move(SDL_Renderer* renderer, const float& x_main
     }
 }
 
+void mob_object_::mob_healthbar(SDL_Renderer* renderer)
+{
+    healthbar_frame.x = sprite.x;
+    healthbar_frame.y = sprite.y - healthbar_frame.h;
+    blood_healthbar.x = healthbar_frame.x;
+    blood_healthbar.y = healthbar_frame.y;
+
+    SDL_SetRenderDrawColor(renderer, 70, 70, 70, 255);
+    SDL_RenderFillRectF(renderer, &healthbar_frame);
+
+    blood_healthbar.w = ( hp*1.0/max_hp ) * healthbar_frame.w ;
+    if(hp >= 0){
+        SDL_SetRenderDrawColor(renderer, 255, 70, 70, 255);
+        SDL_RenderFillRectF(renderer, &blood_healthbar);
+    }
+    SDL_RenderCopyF(renderer, texture_healthbar, NULL, &healthbar_frame);
+}
+
 

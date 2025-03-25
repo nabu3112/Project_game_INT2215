@@ -15,13 +15,15 @@ void mainc::main_move(bool& running, map_object_& map_game)
     dx=0;
     dy=0;
 
-    if(keys[SDL_SCANCODE_A]){
-        state=2;
+    if(index_to_win <=0){
+        state = 4;
+    }else if(keys[SDL_SCANCODE_A]){
+        state = 2;
         is_attacking = 1;
         punch_or_kick = 0;
     }
     else if(keys[SDL_SCANCODE_D] && energy ==4){
-        state=3;
+        state = 3;
         is_attacking = 1;
         punch_or_kick = 1;
     }
@@ -114,53 +116,67 @@ void mainc::set_clips_kick()
 void mainc::playMainAnimation(SDL_Renderer* renderer)
 {
     sprite.x= SCREEN_WIDTH/2 - size_frame/2;
-    if(state==0){
-        frame_ = stand_clip[(stand_frame-1)/4];
-        sprite.w = width_stand;
-        stand_frame++;
-        if(stand_frame>16) stand_frame=1;
-        texture_now = main_stand;
 
-	}else if(state==1){
-	    frame_ = run_clip[(run_frame-1)/3];
-        sprite.w = width_run;
-        run_frame++;
-        if(run_frame>18) run_frame=1;
-        texture_now = main_run;
+    if(state == 4)
+    {
+        sprite.w = size_frame;
+        sprite.h = size_frame;
 
-	}else if(state==2){
-	    frame_ = punch_clip[(punch_frame-1)/2];
-        sprite.w = width_punch;
-        punch_frame++;
-        texture_now = main_punch;
-        if(punch_frame >12){
-            punch_frame=1;
-            state=0;
-            is_attacking = 0;
-            if(energy<4) energy++;
-            deal_damage =1;
-        }
+        frame_ = run_clip[(win_frame - 1)/3];
+        win_frame++;
+        if(win_frame > 9) win_frame = 1;
 
-	}else if(state==3 && energy==4){
-	    frame_ = kick_clip[(kick_frame-1)/3];
-        sprite.w = width_kick;
-        if(!left_or_right){
-            sprite.x = SCREEN_WIDTH/2 - size_frame/2 - (width_kick - size_frame);
-        }
-        kick_frame++;
-        texture_now = main_kick;
-        if(kick_frame > 12){
-            kick_frame=1;
-            state=0;
-            is_attacking = 0;
-            energy=0;
-            deal_damage =1;
-        }
-	}
-	if(left_or_right){
-        SDL_RenderCopy(renderer, texture_now, &frame_, &sprite);
+        SDL_RenderCopy(renderer, main_win, &frame_, &sprite);
+
     }else{
-        SDL_RenderCopyEx(renderer, texture_now, &frame_, &sprite, 0, NULL, SDL_FLIP_HORIZONTAL);
+        if(state == 0){
+            frame_ = stand_clip[(stand_frame-1)/4];
+            sprite.w = width_stand;
+            stand_frame++;
+            if(stand_frame>16) stand_frame=1;
+            texture_now = main_stand;
+
+        }else if(state == 1){
+            frame_ = run_clip[(run_frame-1)/3];
+            sprite.w = width_run;
+            run_frame++;
+            if(run_frame>18) run_frame=1;
+            texture_now = main_run;
+
+        }else if(state == 2){
+            frame_ = punch_clip[(punch_frame-1)/2];
+            sprite.w = width_punch;
+            punch_frame++;
+            texture_now = main_punch;
+            if(punch_frame >12){
+                punch_frame=1;
+                state=0;
+                is_attacking = 0;
+                if(energy<4) energy++;
+                deal_damage =1;
+            }
+
+        }else if(state == 3 && energy == 4){
+            frame_ = kick_clip[(kick_frame-1)/3];
+            sprite.w = width_kick;
+            if(!left_or_right){
+                sprite.x = SCREEN_WIDTH/2 - size_frame/2 - (width_kick - size_frame);
+            }
+            kick_frame++;
+            texture_now = main_kick;
+            if(kick_frame > 12){
+                kick_frame=1;
+                state=0;
+                is_attacking = 0;
+                energy=0;
+                deal_damage =1;
+            }
+        }
+        if(left_or_right){
+            SDL_RenderCopy(renderer, texture_now, &frame_, &sprite);
+        }else{
+            SDL_RenderCopyEx(renderer, texture_now, &frame_, &sprite, 0, NULL, SDL_FLIP_HORIZONTAL);
+        }
     }
 }
 
@@ -185,12 +201,10 @@ void mainc::attack_to_mob(SDL_FRect& mob_hitbox, int& mob_hp)
     if(!punch_or_kick){
         if(SDL_HasIntersectionF( punch_box, mob_hitbox) ){
             mob_hp -= damage_punch;
-            cout<<mob_hp<<endl;
         }
     }else{
         if(SDL_HasIntersectionF( kick_box, mob_hitbox) ){
             mob_hp -= damage_kick;
-            cout<<mob_hp<<endl;
         }
     }
     deal_damage =0;
@@ -213,3 +227,21 @@ void mainc::handle_paralyzed(SDL_Renderer* renderer)
 }
 
 
+void mainc::set_clips_win()
+{
+    for(int i=0; i<3; i++){
+        win_clip[i] = {i*size_frame, 0, size_frame, size_frame};
+    }
+}
+
+void mainc::play_win_animation(SDL_Renderer* renderer)
+{
+    sprite.x = SCREEN_WIDTH/2 - size_frame/2;
+
+    sprite.w = size_frame;
+    sprite.h = size_frame;
+
+    frame_ = run_clip[(win_frame - 1)/2];
+
+    SDL_RenderCopy(renderer, main_win, &frame_, &sprite);
+}
