@@ -44,8 +44,10 @@ struct bullet_object_{
             daim *= zoom_level;
         }
     }
-    bullet_object_(){
-
+    ~bullet_object_(){
+        //SDL_DestroyTexture(bullet_texture);
+        //bullet_texture = NULL;
+        //cout<<4<<endl;
     }
     SDL_Rect set_clips_bullet();
     void play_bullet_animation(SDL_Renderer* renderer, const float& x_mob , const float& y_mob,const float& x_main, const float& y_main, const float& mob_size);

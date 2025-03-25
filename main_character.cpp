@@ -83,112 +83,54 @@ void mainc::main_move(bool& running, map_object_& map_game)
     }
 }
 
-SDL_Rect mainc::set_clips_stand()
+void mainc::set_clips_stand()
 {
-    if(stand_frame>=1 && stand_frame<=4){
-        frame_ = {0, 0, sprite.w, sprite.h};
-        stand_frame++;
-    }else if(stand_frame>=5 && stand_frame<=8){
-        frame_ = {sprite.w, 0, sprite.w, sprite.h};
-        stand_frame++;
-    }else if(stand_frame>=9 && stand_frame<=12){
-        frame_ = {2*sprite.w, 0, sprite.w, sprite.h};
-        stand_frame++;
-    }else if(stand_frame>=13 && stand_frame<=16){
-        frame_ = {3*sprite.w, 0, sprite.w, sprite.h};
-        stand_frame++;
+    for(int i=0; i<4; i++){
+        stand_clip[i] = {i*width_stand, 0, width_stand, sprite.h};
     }
-    if(stand_frame>16) stand_frame=1;
-    return frame_;
 }
 
-SDL_Rect mainc::set_clips_run()
+void mainc::set_clips_run()
 {
-    if(run_frame>=1 && run_frame<=3){
-        frame_ = {0, 0, sprite.w, sprite.h};
-        run_frame++;
-    }else if(run_frame>=4 && run_frame<=6){
-        frame_ = {sprite.w, 0, sprite.w, sprite.h};
-        run_frame++;
-    }else if(run_frame>=7 && run_frame<=9){
-        frame_ = {2*sprite.w, 0, sprite.w, sprite.h};
-        run_frame++;
-    }else if(run_frame>=10 && run_frame<=12){
-        frame_ = {3*sprite.w, 0, sprite.w, sprite.h};
-        run_frame++;
-    }else if(run_frame>=13 && run_frame<=15){
-        frame_ = {4*sprite.w, 0, sprite.w, sprite.h};
-        run_frame++;
-    }else if(run_frame>=16 && run_frame<=18){
-        frame_ = {5*sprite.w, 0, sprite.w, sprite.h};
-        run_frame++;
+    for(int i=0; i<6; i++){
+        run_clip[i] = {i*width_run, 0, width_run, sprite.h};
     }
-    if(run_frame>18) run_frame=1;
-    return frame_;
 }
 
-SDL_Rect mainc::set_clips_punch()
+void mainc::set_clips_punch()
 {
-    if(punch_frame>=1 && punch_frame<=2){
-        frame_ = {0, 0, sprite.w, sprite.h};
-        punch_frame++;
-    }else if(punch_frame>=3 && punch_frame<=4){
-        frame_ = {sprite.w, 0, sprite.w, sprite.h};
-        punch_frame++;
-    }else if(punch_frame>=5 && punch_frame<=6){
-        frame_ = {2*sprite.w, 0, sprite.w, sprite.h};
-        punch_frame++;
-    }else if(punch_frame>=7 && punch_frame<=8){
-        frame_ = {3*sprite.w, 0, sprite.w, sprite.h};
-        punch_frame++;
-    }else if(punch_frame>=9 && punch_frame<=10){
-        frame_ = {4*sprite.w, 0, sprite.w, sprite.h};
-        punch_frame++;
-    }else if(punch_frame>=11 && punch_frame<=12){
-        frame_ = {5*sprite.w, 0, sprite.w, sprite.h};
-        punch_frame++;
+    for(int i=0; i<6; i++){
+        punch_clip[i] = {i*width_punch, 0, width_punch, sprite.h};
     }
-    return frame_;
 }
 
-SDL_Rect mainc::set_clips_kick()
+void mainc::set_clips_kick()
 {
-    if(kick_frame>=1 && kick_frame<=3){
-        frame_ = {0, 0, 144, 96};
-        kick_frame++;
-    }else if(kick_frame>=4 && kick_frame<=6){
-        frame_ = {144, 0, 144, 96};
-        kick_frame++;
-    }else if(kick_frame>=7 && kick_frame<=9){
-        frame_ = {288, 0, 144, 96};
-        kick_frame++;
-    }else if(kick_frame>=10 && kick_frame<=12){
-        frame_ = {432, 0, 144, 96};
-        kick_frame++;
+    for(int i=0; i<4; i++){
+        kick_clip[i] = {i*width_kick, 0, width_kick, sprite.h};
     }
-    return frame_;
 }
 
 void mainc::playMainAnimation(SDL_Renderer* renderer)
 {
-    sprite.x= SCREEN_WIDTH/2 - sprite.w/2;
-    sprite.y= SCREEN_HEIGHT/2 - sprite.h/2;
     if(state==0){
-        SDL_QueryTexture(main_stand, NULL, NULL, &sprite.w, &sprite.h );
-        sprite.w/=4;
-        frame_ = set_clips_stand();
+        frame_ = stand_clip[(stand_frame-1)/4];
+        sprite.w = width_stand;
+        stand_frame++;
+        if(stand_frame>16) stand_frame=1;
         texture_now = main_stand;
 
 	}else if(state==1){
-	    SDL_QueryTexture(main_run, NULL, NULL, &sprite.w, &sprite.h );
-        sprite.w/=6;
-        frame_ = set_clips_run();
+	    frame_ = run_clip[(run_frame-1)/3];
+        sprite.w = width_run;
+        run_frame++;
+        if(run_frame>18) run_frame=1;
         texture_now = main_run;
 
 	}else if(state==2){
-	    SDL_QueryTexture(main_punch, NULL, NULL, &sprite.w, &sprite.h );
-        sprite.w/=6;
-        frame_ = set_clips_punch();
+	    frame_ = punch_clip[(punch_frame-1)/2];
+        sprite.w = width_punch;
+        punch_frame++;
         texture_now = main_punch;
         if(punch_frame >12){
             punch_frame=1;
@@ -196,10 +138,11 @@ void mainc::playMainAnimation(SDL_Renderer* renderer)
             is_attacking = 0;
             if(energy<4) energy++;
         }
+
 	}else if(state==3 && energy==4){
-	    SDL_QueryTexture(main_kick, NULL, NULL, &sprite.w, &sprite.h );
-        sprite.w/=4;
-        frame_ = set_clips_kick();
+	    frame_ = kick_clip[(kick_frame-1)/3];
+        sprite.w = width_kick;
+        kick_frame++;
         texture_now = main_kick;
         if(kick_frame > 12){
             kick_frame=1;
@@ -244,7 +187,7 @@ void mainc::attack_to_mob(SDL_FRect& mob_hitbox, int& mob_hp)
 
 void mainc::render_effect_paralyzed(SDL_Renderer* renderer)
 {
-    SDL_QueryTexture(paralyzed_texture, NULL, NULL, &paralyzed_frame.w, &paralyzed_frame.h);
+    //SDL_QueryTexture(paralyzed_texture, NULL, NULL, &paralyzed_frame.w, &paralyzed_frame.h);
     SDL_RenderCopy(renderer, paralyzed_texture, NULL, &paralyzed_frame);
 }
 

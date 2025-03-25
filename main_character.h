@@ -46,6 +46,11 @@ struct mainc {
     int punch_frame=1;
     int kick_frame=1;
 
+    int width_stand;
+    int width_run;
+    int width_punch;
+    int width_kick;
+
     SDL_FRect hitbox;
     SDL_FRect punch_box;
     SDL_FRect kick_box;
@@ -59,6 +64,11 @@ struct mainc {
     Uint32 paralyzed_start_time = 0;
     Uint32 paralyzed_durution = 2000;
 
+    SDL_Rect stand_clip[4];
+    SDL_Rect run_clip[6];
+    SDL_Rect punch_clip[6];
+    SDL_Rect kick_clip[4];
+
     mainc(SDL_Renderer* renderer){
         main_stand = loadTexture("Image//lucario_stand.png", renderer);
         main_run= loadTexture("Image//lucario_run.png", renderer);
@@ -69,6 +79,18 @@ struct mainc {
         SDL_QueryTexture(paralyzed_texture, NULL, NULL, &paralyzed_frame.w, &paralyzed_frame.h);
         paralyzed_frame.x = 72;
         paralyzed_frame.y = 90;
+
+        SDL_QueryTexture(main_stand, NULL, NULL, &width_stand, &sprite.h);
+        width_stand/=4;
+        SDL_QueryTexture(main_run, NULL, NULL, &width_run, &sprite.h);
+        width_run/=6;
+        SDL_QueryTexture(main_punch, NULL, NULL, &width_punch, &sprite.h);
+        width_punch/=6;
+        SDL_QueryTexture(main_kick, NULL, NULL, &width_kick, &sprite.h);
+        width_kick/=4;
+
+        sprite.x= SCREEN_WIDTH/2 - size_frame/2;
+        sprite.y= SCREEN_HEIGHT/2 - size_frame/2;
     }
 
     ~mainc(){
@@ -80,15 +102,16 @@ struct mainc {
         main_punch=NULL;
         SDL_DestroyTexture(main_kick);
         main_kick=NULL;
+        cout<<1<<endl;
     }
 
     void main_move(bool& running, map_object_& map_game);
     void check_to_map();
 
-    SDL_Rect set_clips_stand();
-    SDL_Rect set_clips_run();
-    SDL_Rect set_clips_punch();
-    SDL_Rect set_clips_kick();
+    void set_clips_stand();
+    void set_clips_run();
+    void set_clips_punch();
+    void set_clips_kick();
 
     void playMainAnimation(SDL_Renderer* renderer);
     bool check_alive();

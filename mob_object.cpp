@@ -1,14 +1,16 @@
 #include "mob_object.h"
 
-void mob_object_::mob_move(map_object_& map_game,const float& x_main,const float& y_main, float& dx_main, float& dy_main, const int& size_main)
+void mob_object_::set_distance_to_main(const float& x_main, const float& y_main, const int& size_main)
 {
     vector_x_to_main = (x_main + size_main/2) - (x_on_map + mob_size*zoom_level/2);
     vector_y_to_main = (y_main + size_main/2) - (y_on_map + mob_size*zoom_level/2);
     distance_to_main = sqrt( vector_x_to_main*vector_x_to_main + vector_y_to_main*vector_y_to_main );
-
     in_radian_of_main = (distance_to_main <= sqrt(SCREEN_HEIGHT*SCREEN_HEIGHT/4 + SCREEN_WIDTH*SCREEN_WIDTH/4));
+}
 
-    if(in_radian_of_main && zoom_level<4){
+void mob_object_::mob_move(map_object_& map_game, const float& x_main, const float& y_main, const float& dx_main, const float& dy_main)
+{
+    if(zoom_level<4){
         right_with_main = (x_on_map > x_main);
         if((x_on_map - x_main) > 0){
             if(dx_main > 0) dx = running_speed;
