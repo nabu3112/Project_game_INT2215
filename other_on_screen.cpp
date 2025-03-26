@@ -1,7 +1,7 @@
 #include "other_on_screen.h"
 
 
-void health_bar_object::render_health_bar(SDL_Renderer* renderer, const int& main_hp, const int& main_energy)
+void on_screen_object::render_health_bar(SDL_Renderer* renderer, const int& main_hp, const int& main_energy)
 {
     SDL_SetRenderDrawColor(renderer, 70, 70, 70, 255);
     SDL_RenderFillRect(renderer, &background_healthbar);
@@ -32,3 +32,12 @@ void health_bar_object::render_health_bar(SDL_Renderer* renderer, const int& mai
     SDL_RenderCopy(renderer, now_texture_healthbar, NULL, &frame_healthbar);
 }
 
+void on_screen_object::render_menu_upgrade(SDL_Renderer* renderer)
+{
+    SDL_Rect sprite;
+    SDL_QueryTexture(texture_menu_upgrade, NULL, NULL, &sprite.w, &sprite.h);
+    sprite.x = (SCREEN_WIDTH - sprite.w)/2;
+    sprite.y = SCREEN_HEIGHT - sprite.h - 48;
+    SDL_RenderCopy(renderer, texture_menu_upgrade, NULL, &sprite);
+    SDL_RenderPresent(renderer);
+}

@@ -2,8 +2,8 @@
 #define _MAP_OBJECT_H
 
 #include <iostream>
+#include <vector>
 #include <cmath>
-#include <fstream>
 #include <SDL_image.h>
 
 #include "base_function.h"
@@ -28,6 +28,13 @@ struct map_object_{
 
     SDL_Texture* map_layer1;
     SDL_Texture* map_layer2;
+
+    vector <SDL_FRect> item_coordinate={
+        {912, 1104, TILE_SIZE, TILE_SIZE},
+        {1392, 1824, TILE_SIZE, TILE_SIZE},
+        {2688, 912, TILE_SIZE, TILE_SIZE}
+    };
+
 
     map_object_(SDL_Renderer* renderer){
         map_layer1 = loadTexture("Image//map1_layer1.png", renderer);

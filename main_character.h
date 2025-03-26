@@ -11,21 +11,26 @@ using namespace std;
 #include "constants.h"
 #include "base_function.h"
 #include "map_object.h"
+#include "other_on_screen.h"
 
 struct mainc {
-    float x_on_map= 1824;
-    float y_on_map= 672;
+    float x_on_map = 1824;
+    float y_on_map = 672;
+
+    float x_check_point = 1824;
+    float y_check_point = 672;
 
     float dx=0;
     float dy=0;
 
-    int hp=100;
+    int hp = 100;
+    int max_hp = 100;
     int running_speed = 10;
     int slow_speed = 1;
     int base_speed = 10;
     int energy=0;
     int damage_punch = 5;
-    int damage_kick = 10;
+    int damage_kick = 2*damage_punch;
 
     SDL_Texture* main_stand;
     SDL_Texture* main_run;
@@ -122,11 +127,12 @@ struct mainc {
     void set_clips_win();
 
     void playMainAnimation(SDL_Renderer* renderer);
-    bool check_alive();
+    void check_alive();
     void attack_to_mob(SDL_FRect& mob_hitbox, int& mob_hp);
     void render_effect_paralyzed(SDL_Renderer* renderer);
     void handle_paralyzed(SDL_Renderer* renderer);
     void play_win_animation(SDL_Renderer* renderer);
+    void pick_up_item(SDL_Renderer* renderer, vector<SDL_FRect>& item_coordinate, on_screen_object& on_screen);
 };
 
 

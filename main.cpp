@@ -48,12 +48,12 @@ int main(int argc, char *argv[])
 
     SDL_Texture* mob_texture = loadTexture("Image//rotom.png", renderer);
     SDL_Texture* bullet_texture = loadTexture("Image//electro_ball.png", renderer);
-    SDL_Texture* mob_healthbar_texture = loadTexture("Image//mob_healthbar.png", renderer);
+    SDL_Texture* mob_healthbar_texture = loadTexture("Image//mob_healthbar1.png", renderer);
 
     vector <mob_object_> all_mob;
     init_mob(all_mob, renderer, mob_texture, bullet_texture, mob_healthbar_texture);
 
-    mob_object_ mob(renderer, mob_texture, bullet_texture, mob_healthbar_texture, 720, 1824, 4);
+    mob_object_ mob(renderer, mob_texture, bullet_texture, mob_healthbar_texture, 720, 1824, 6);
     all_mob.push_back(mob);
 
     mainc mcharacter(renderer, all_mob.size());
@@ -62,7 +62,7 @@ int main(int argc, char *argv[])
     mcharacter.set_clips_punch();
     mcharacter.set_clips_kick();
 
-    health_bar_object health_bar(renderer);
+    on_screen_object on_screen(renderer);
 
     bool running = true;
 
@@ -91,9 +91,13 @@ int main(int argc, char *argv[])
 
         mcharacter.playMainAnimation(renderer);
         mcharacter.handle_paralyzed(renderer);
+        mcharacter.check_alive();
+
 
         map_game.renderTexture_Map(renderer, 2);
-        health_bar.render_health_bar(renderer, mcharacter.hp, mcharacter.energy);
+        on_screen.render_health_bar(renderer, mcharacter.hp, mcharacter.energy);
+
+        mcharacter.pick_up_item(renderer, map_game.item_coordinate, on_screen);
 
         SDL_RenderPresent( renderer );
         SDL_Delay(30);

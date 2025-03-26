@@ -17,15 +17,16 @@ void mainc::main_move(bool& running, map_object_& map_game)
 
     if(index_to_win <=0){
         state = 4;
-    }else if(keys[SDL_SCANCODE_A]){
-        state = 2;
-        is_attacking = 1;
-        punch_or_kick = 0;
     }
     else if(keys[SDL_SCANCODE_D] && energy ==4){
         state = 3;
         is_attacking = 1;
         punch_or_kick = 1;
+    }
+    else if(keys[SDL_SCANCODE_A]){
+        state = 2;
+        is_attacking = 1;
+        punch_or_kick = 0;
     }
     else if(!is_attacking){
         state=0;
@@ -180,23 +181,24 @@ void mainc::playMainAnimation(SDL_Renderer* renderer)
     }
 }
 
-bool mainc::check_alive()
+void mainc::check_alive()
 {
     if(hp<=0){
-        SDL_Delay(500);
-        return 0;
+        x_on_map = x_check_point;
+        y_on_map = x_check_point;
+        hp = max_hp;
+        //is_paralyzed = 0;
     }
-    else return 1;
 }
 
 void mainc::attack_to_mob(SDL_FRect& mob_hitbox, int& mob_hp)
 {
     if(left_or_right){
         punch_box = {x_on_map + size_frame*2/3, y_on_map + size_frame/2, size_frame/3, size_frame/4};
-        kick_box = {x_on_map + 80, y_on_map + 42, 32, 44};
+        kick_box = {x_on_map + 80, y_on_map + 42, 64, 44};
     }else{
         punch_box = {x_on_map , y_on_map + size_frame/2, size_frame/3, size_frame/4};
-        kick_box = {x_on_map + 32 -(width_kick - size_frame), y_on_map + 42, 32, 44};
+        kick_box = {x_on_map + 32 -(width_kick - size_frame), y_on_map + 42, 64, 44};
     }
     if(!punch_or_kick){
         if(SDL_HasIntersectionF( punch_box, mob_hitbox) ){
@@ -244,4 +246,38 @@ void mainc::play_win_animation(SDL_Renderer* renderer)
     frame_ = run_clip[(win_frame - 1)/2];
 
     SDL_RenderCopy(renderer, main_win, &frame_, &sprite);
+}
+
+void mainc::pick_up_item(SDL_Renderer* renderer, vector<SDL_FRect>& item_coordinate, on_screen_object& on_screen)
+{
+    hitbox.y += size_frame;
+    hitbox.h -= size_frame;
+    for(int i=item_coordinate.size()-1; i>=0; i--){
+        if(SDL_HasIntersectionF(hitbox, item_coordinate[i])){
+            on_screen.render_menu_upgrade(renderer);
+            x_check_point = item_coordinate[i].x;
+            y_check_point = item_coordinate[i].y;
+            memset(keys, 0 , sizeof(keys));
+            while(true)
+            {
+                if(SDL_PollEvent(&event)){
+                    if(event.key.keysym.sym == SDLK_1){
+                        hp = min(hp+20, max_hp);
+                        break;
+                    }else if(event.key.keysym.sym == SDLK_2){
+                        running_speed += 1;
+                        base_speed += 1;
+                        break;
+                    }else if(event.key.keysym.sym == SDLK_3){
+                        damage_punch +=2;
+                        damage_kick = damage_punch*2;
+                        break;
+                    }
+                }
+            }
+            item_coordinate.erase(item_coordinate.begin() + i);
+        }
+    }
+    hitbox.y -= size_frame;
+    hitbox.h += size_frame;
 }

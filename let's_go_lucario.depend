@@ -8,9 +8,9 @@
 	<SDL_image.h>
 	<iostream>
 
-1742806484 c:\users\hello\onedrive - vnu.edu.vn\desktop\let's_go_lucario\constants.h
+1742977182 c:\users\hello\onedrive - vnu.edu.vn\desktop\let's_go_lucario\constants.h
 
-1742901360 source:c:\users\hello\onedrive - vnu.edu.vn\desktop\let's_go_lucario\main.cpp
+1742986016 source:c:\users\hello\onedrive - vnu.edu.vn\desktop\let's_go_lucario\main.cpp
 	<iostream>
 	<SDL.h>
 	<SDL_image.h>
@@ -22,7 +22,7 @@
 	"mob_object.h"
 	"other_on_screen.h"
 
-1742900990 c:\users\hello\onedrive - vnu.edu.vn\desktop\let's_go_lucario\main_character.h
+1742985486 c:\users\hello\onedrive - vnu.edu.vn\desktop\let's_go_lucario\main_character.h
 	<SDL.h>
 	<SDL_image.h>
 	<iostream>
@@ -30,17 +30,18 @@
 	"constants.h"
 	"base_function.h"
 	"map_object.h"
+	"other_on_screen.h"
 
-1742901305 source:c:\users\hello\onedrive - vnu.edu.vn\desktop\let's_go_lucario\main_character.cpp
+1742985916 source:c:\users\hello\onedrive - vnu.edu.vn\desktop\let's_go_lucario\main_character.cpp
 	"main_character.h"
 
 1742729675 source:c:\users\hello\onedrive - vnu.edu.vn\desktop\let's_go_lucario\map_object.cpp
 	"map_object.h"
 
-1742899906 c:\users\hello\onedrive - vnu.edu.vn\desktop\let's_go_lucario\map_object.h
+1742977182 c:\users\hello\onedrive - vnu.edu.vn\desktop\let's_go_lucario\map_object.h
 	<iostream>
+	<vector>
 	<cmath>
-	<fstream>
 	<SDL_image.h>
 	"base_function.h"
 	"constants.h"
@@ -72,12 +73,12 @@
 	"InitScreen.h"
 	"constants.h"
 
-1742719449 c:\users\hello\onedrive - vnu.edu.vn\desktop\let's_go_lucario\base_function.h
+1742979489 c:\users\hello\onedrive - vnu.edu.vn\desktop\let's_go_lucario\base_function.h
 	<SDL.h>
 	<SDL_image.h>
 	<iostream>
 
-1742887578 source:c:\users\hello\onedrive - vnu.edu.vn\desktop\let's_go_lucario\base_function.cpp
+1742979489 source:c:\users\hello\onedrive - vnu.edu.vn\desktop\let's_go_lucario\base_function.cpp
 	"base_function.h"
 	"constants.h"
 
@@ -89,10 +90,11 @@
 1742887578 source:c:\users\hello\onedrive - vnu.edu.vn\desktop\let's_go_lucario\bullet_object.cpp
 	"bullet_object.h"
 
-1742795094 source:c:\users\hello\onedrive - vnu.edu.vn\desktop\let's_go_lucario\other_on_screen.cpp
+1742985916 source:c:\users\hello\onedrive - vnu.edu.vn\desktop\let's_go_lucario\other_on_screen.cpp
 	"other_on_screen.h"
 
-1742794896 c:\users\hello\onedrive - vnu.edu.vn\desktop\let's_go_lucario\other_on_screen.h
+1742985331 c:\users\hello\onedrive - vnu.edu.vn\desktop\let's_go_lucario\other_on_screen.h
 	<SDL_image.h>
 	"base_function.h"
+	"constants.h"
 
