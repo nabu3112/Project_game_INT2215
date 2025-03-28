@@ -193,12 +193,14 @@ void mainc::attack_to_mob(SDL_FRect& mob_hitbox, int& mob_hp)
     }
     if(!punch_or_kick){
         if(SDL_HasIntersectionF( punch_box, mob_hitbox) ){
+            is_hit = 1;
             mob_hp -= damage_punch;
-        }
+        }else is_hit = 2;
     }else{
         if(SDL_HasIntersectionF( kick_box, mob_hitbox) ){
+            is_hit = 1;
             mob_hp -= damage_kick;
-        }
+        }else is_hit = 2;
     }
     deal_damage =0;
 }
@@ -239,8 +241,9 @@ void mainc::play_win_animation(SDL_Renderer* renderer)
     SDL_RenderCopy(renderer, main_win, &frame_, &sprite);
 }
 
-void mainc::pick_up_item(SDL_Renderer* renderer, vector<SDL_FRect>& item_coordinate, on_screen_object& on_screen, bool (&keys)[SDL_NUM_SCANCODES], SDL_Event& event)
+bool mainc::pick_up_item(SDL_Renderer* renderer, vector<SDL_FRect>& item_coordinate, on_screen_object& on_screen, bool (&keys)[SDL_NUM_SCANCODES], SDL_Event& event)
 {
+    bool can_pick = false;
     hitbox.y += size_frame;
     hitbox.h -= size_frame;
     for(int i=item_coordinate.size()-1; i>=0; i--){
@@ -267,8 +270,10 @@ void mainc::pick_up_item(SDL_Renderer* renderer, vector<SDL_FRect>& item_coordin
                 }
             }
             item_coordinate.erase(item_coordinate.begin() + i);
+            can_pick = true;
         }
     }
     hitbox.y -= size_frame;
     hitbox.h += size_frame;
+    return can_pick;
 }

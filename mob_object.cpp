@@ -79,12 +79,13 @@ void mob_object_::mob_attack(SDL_Renderer* renderer, const float& x_main, const 
     }
 }
 
-void mob_object_::handle_bullet_move(SDL_Renderer* renderer, const float& x_main, const float& y_main, const SDL_FRect& hitbox_main, int& main_hp, int& main_speed, const int& main_slow_speed, bool& main_is_paralyzed, Uint32& paralyzed_start_time)
+void mob_object_::handle_bullet_move(SDL_Renderer* renderer, const float& x_main, const float& y_main, const SDL_FRect& hitbox_main
+                                    , int& main_hp, int& main_speed, const int& main_slow_speed, bool& main_is_paralyzed, Uint32& paralyzed_start_time,  Mix_Chunk* sound1, Mix_Chunk* sound2)
 {
     for(int i=0; i<skill.size(); i++){
         skill[i].bullet_move();
         skill[i].play_bullet_animation(renderer, x_on_map, y_on_map, x_main, y_main, mob_size);
-        if(skill[i].check_bullet_to_map() || skill[i].daim_on_main( hitbox_main, main_hp, main_speed, main_slow_speed, main_is_paralyzed, paralyzed_start_time)){
+        if(skill[i].check_bullet_to_map() || skill[i].daim_on_main( hitbox_main, main_hp, main_speed, main_slow_speed, main_is_paralyzed, paralyzed_start_time, sound1, sound2)){
             skill.erase(skill.begin() + i);
             i--;
         }

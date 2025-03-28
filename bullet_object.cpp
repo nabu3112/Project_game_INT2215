@@ -84,7 +84,7 @@ bool bullet_object_::check_bullet_to_map()
     return 0;
 }
 
-bool bullet_object_::daim_on_main(const SDL_FRect& main_hitbox, int& main_hp, int& main_speed, const int& main_slow_speed, bool& main_is_paralyzed, Uint32& paralyzed_start_time)
+bool bullet_object_::daim_on_main(const SDL_FRect& main_hitbox, int& main_hp, int& main_speed, const int& main_slow_speed, bool& main_is_paralyzed, Uint32& paralyzed_start_time, Mix_Chunk* sound1, Mix_Chunk* sound2)
 {
     if(SDL_HasIntersectionF(main_hitbox, hitbox)){
         main_hp -= damage;
@@ -92,13 +92,14 @@ bool bullet_object_::daim_on_main(const SDL_FRect& main_hitbox, int& main_hp, in
             main_is_paralyzed = 1;
             main_speed = main_slow_speed;
             paralyzed_start_time = SDL_GetTicks();
+            Mix_PlayChannel(-1, sound1, 0);
+        }else{
+            Mix_PlayChannel(-1, sound2, 0);
         }
-        //cout<<main_is_paralyzed<<endl;
         return 1;
     }else{
         return 0;
     }
 }
-
 
 

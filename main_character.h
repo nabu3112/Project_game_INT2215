@@ -49,6 +49,7 @@ struct mainc {
     bool punch_or_kick=0;
     bool is_paralyzed = 0;
     bool deal_damage = 0;
+    int is_hit = 0;
 
     int stand_frame=1;
     int run_frame=1;
@@ -129,7 +130,7 @@ struct mainc {
     void render_effect_paralyzed(SDL_Renderer* renderer);
     void handle_paralyzed(SDL_Renderer* renderer);
     void play_win_animation(SDL_Renderer* renderer);
-    void pick_up_item(SDL_Renderer* renderer, vector<SDL_FRect>& item_coordinate, on_screen_object& on_screen, bool (&keys)[SDL_NUM_SCANCODES], SDL_Event& event);
+    bool pick_up_item(SDL_Renderer* renderer, vector<SDL_FRect>& item_coordinate, on_screen_object& on_screen, bool (&keys)[SDL_NUM_SCANCODES], SDL_Event& event);
 };
 
 

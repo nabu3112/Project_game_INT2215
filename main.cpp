@@ -11,6 +11,7 @@
 #include "mob_object.h"
 #include "other_on_screen.h"
 #include "menu_game.h"
+#include "mixer.h"
 
 using namespace std;
 
@@ -18,7 +19,7 @@ const char* WINDOW_TITLE = "game";
 
 Uint32 current_time = SDL_GetTicks();
 
-void handle_mob(SDL_Renderer* renderer, map_object_& map_game, mob_object_& mob, mainc& mcharacter)
+void handle_mob(SDL_Renderer* renderer, map_object_& map_game, mob_object_& mob, mainc& mcharacter, Mix_Chunk* sound1, Mix_Chunk* sound2)
 {
     mob.mob_move(map_game, mcharacter.x_on_map, mcharacter.y_on_map, mcharacter.dx, mcharacter.dy);
     mob.loadAnimationMob(renderer, mcharacter.x_on_map, mcharacter.y_on_map);
@@ -30,7 +31,8 @@ void handle_mob(SDL_Renderer* renderer, map_object_& map_game, mob_object_& mob,
         mob.mob_attack(renderer, mcharacter.x_on_map, mcharacter.y_on_map, mcharacter.size_frame);
         mob.last_shoot_time = current_time;
     }
-    mob.handle_bullet_move(renderer, mcharacter.x_on_map, mcharacter.y_on_map, mcharacter.hitbox, mcharacter.hp, mcharacter.running_speed, mcharacter.slow_speed, mcharacter.is_paralyzed, mcharacter.paralyzed_start_time);
+    mob.handle_bullet_move(renderer, mcharacter.x_on_map, mcharacter.y_on_map, mcharacter.hitbox, mcharacter.hp
+                           , mcharacter.running_speed, mcharacter.slow_speed, mcharacter.is_paralyzed, mcharacter.paralyzed_start_time, sound1, sound2);
 }
 
 void init_mob(vector<mob_object_>& all_mob, SDL_Renderer* renderer, SDL_Texture* mob_texture, SDL_Texture* bullet_texture, SDL_Texture* mob_healthbar_texture,const float& x_main, const float& y_main, const int& size_main)
@@ -45,6 +47,7 @@ int main(int argc, char *argv[])
 {
     SDL_Window* window = initSDL(SCREEN_WIDTH, SCREEN_HEIGHT, WINDOW_TITLE);
     SDL_Renderer* renderer = createRenderer(window);
+    sound all_sound_effect;
 
     map_object_ map_game(renderer);
 
@@ -69,11 +72,12 @@ int main(int argc, char *argv[])
     on_screen_object on_screen(renderer);
 
     bool running = true;
-    //bool is_pause = false;
     bool keys[SDL_NUM_SCANCODES]= {false};
     SDL_Event event;
-
+    Mix_PlayMusic(all_sound_effect.background_music, -1);
     render_start_menu(renderer, event);
+    Mix_HaltMusic();
+    Mix_PlayMusic(all_sound_effect.in_game_music, -1);
 
     while(running){
         while(SDL_PollEvent(&event)){
@@ -98,7 +102,7 @@ int main(int argc, char *argv[])
         for(int i =0; i< mcharacter.index_to_win; i++){
             all_mob[i].set_distance_to_main(mcharacter.x_on_map, mcharacter.y_on_map, mcharacter.size_frame);
             if(all_mob[i].in_radian_of_main){
-                handle_mob(renderer, map_game, all_mob[i], mcharacter);
+                handle_mob(renderer, map_game, all_mob[i], mcharacter, all_sound_effect.paralyzed_sound, all_sound_effect.basic_bullet_sound);
             }
         }
         if(mcharacter.deal_damage){
@@ -113,16 +117,29 @@ int main(int argc, char *argv[])
                 }
             }
         }
+        if(mcharacter.is_hit == 1){
+            Mix_PlayChannel(-1, all_sound_effect.attack_sound, 0);
+        }else if(mcharacter.is_hit == 2){
+            Mix_PlayChannel(-1, all_sound_effect.attack_to_air_sound, 0);
+        }
+        mcharacter.is_hit=0;
+
+        if(mcharacter.index_to_win == 0){
+            Mix_HaltMusic();
+            Mix_PlayMusic(all_sound_effect.win_music, -1);
+            mcharacter.index_to_win --;
+        }
 
         mcharacter.playMainAnimation(renderer);
         mcharacter.handle_paralyzed(renderer);
         mcharacter.check_alive();
 
-
         map_game.renderTexture_Map(renderer, 2);
         on_screen.render_health_bar(renderer, mcharacter.hp, mcharacter.energy);
 
-        mcharacter.pick_up_item(renderer, map_game.item_coordinate, on_screen, keys, event);
+        if(mcharacter.pick_up_item(renderer, map_game.item_coordinate, on_screen, keys, event)){
+            Mix_PlayChannel(-1, all_sound_effect.pick_up_item_sound, 0);
+        }
 
         SDL_RenderPresent( renderer );
         SDL_Delay(30);
@@ -136,6 +153,7 @@ int main(int argc, char *argv[])
     mob_healthbar_texture = NULL;
 
     quitSDL(window, renderer);
+    Mix_Quit();
 
     return 0;
 }

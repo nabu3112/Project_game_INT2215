@@ -12,6 +12,8 @@ SDL_Window* initSDL(int SCREEN_WIDTH, int SCREEN_HEIGHT, const char* WINDOW_TITL
         logErrorAndExit("SDL_Init", SDL_GetError());
     if (TTF_Init() !=0)
         logErrorAndExit("TTF_Init", SDL_GetError());
+    if (Mix_OpenAudio( 44100, MIX_DEFAULT_FORMAT, 2, 2048 ) < 0 )
+        logErrorAndExit("MIXER_Init", SDL_GetError());
 
     SDL_Window* window = SDL_CreateWindow(WINDOW_TITLE, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
     //SDL_Window* window = SDL_CreateWindow(WINDOW_TITLE, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_FULLSCREEN_DESKTOP);
@@ -85,4 +87,27 @@ SDL_Texture* createTextTexture(SDL_Renderer* renderer, const string& text, const
     TTF_CloseFont(font);
 
     return texture;
+}
+
+
+Mix_Chunk* loadSoundEffect(Mix_Chunk* sound, const char *name_sound)
+{
+    SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO, "Loading %s", name_sound);
+    sound = Mix_LoadWAV(name_sound);
+    if( sound == NULL )
+    {
+        SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_ERROR, "Loading sound %s", Mix_GetError());
+    }
+    return sound;
+}
+
+Mix_Music* loadBackgroundMusic(Mix_Music* music, const char *name_sound)
+{
+    SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO, "Loading %s", name_sound);
+    music = Mix_LoadMUS(name_sound);
+    if( music == NULL )
+    {
+        SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_ERROR, "Loading music %s", Mix_GetError());
+    }
+    return music;
 }

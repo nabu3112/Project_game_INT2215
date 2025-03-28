@@ -85,18 +85,14 @@ struct mob_object_{
         vector_y_to_main = (y_main + size_main/2) - (y_on_map + mob_size*zoom_level/2);
         distance_to_main = sqrt( vector_x_to_main*vector_x_to_main + vector_y_to_main*vector_y_to_main );
     }
-    /*~mob_object_(){
-        SDL_DestroyTexture(texture_mob);
-        texture_mob = NULL;
-        SDL_DestroyTexture(texture_skill);
-        texture_skill = NULL;
-    }*/
+
     SDL_Rect set_clips_mob();
     void set_distance_to_main(const float& x_main, const float& y_main, const int& size_main);
     void mob_move(map_object_& map_game, const float& x_main, const float& y_main,const float& dx_main,const float& dy_main);
     void loadAnimationMob(SDL_Renderer* renderer, const float& x, const float& y);
     void mob_attack(SDL_Renderer* renderer, const float& x_main, const float& y_main, const int& size_main);
-    void handle_bullet_move(SDL_Renderer* renderer, const float& x_main, const float& y_main, const SDL_FRect& hitbox_main, int& main_hp, int& main_speed, const int& main_slow_speed, bool& main_is_paralyzed, Uint32& paralyzed_start_time);
+    void handle_bullet_move(SDL_Renderer* renderer, const float& x_main, const float& y_main, const SDL_FRect& hitbox_main
+                            , int& main_hp, int& main_speed, const int& main_slow_speed, bool& main_is_paralyzed, Uint32& paralyzed_start_time, Mix_Chunk* sound1, Mix_Chunk* sound2);
     void mob_healthbar(SDL_Renderer* renderer);
 };
 

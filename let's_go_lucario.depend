@@ -11,7 +11,7 @@
 1743128050 c:\users\hello\onedrive - vnu.edu.vn\desktop\let's_go_lucario\constants.h
 	<SDL.h>
 
-1743126609 source:c:\users\hello\onedrive - vnu.edu.vn\desktop\let's_go_lucario\main.cpp
+1743159114 source:c:\users\hello\onedrive - vnu.edu.vn\desktop\let's_go_lucario\main.cpp
 	<iostream>
 	<SDL.h>
 	<SDL_image.h>
@@ -24,8 +24,9 @@
 	"mob_object.h"
 	"other_on_screen.h"
 	"menu_game.h"
+	"mixer.h"
 
-1743123708 c:\users\hello\onedrive - vnu.edu.vn\desktop\let's_go_lucario\main_character.h
+1743154682 c:\users\hello\onedrive - vnu.edu.vn\desktop\let's_go_lucario\main_character.h
 	<SDL.h>
 	<SDL_image.h>
 	<iostream>
@@ -36,7 +37,7 @@
 	"other_on_screen.h"
 	"menu_game.h"
 
-1743123708 source:c:\users\hello\onedrive - vnu.edu.vn\desktop\let's_go_lucario\main_character.cpp
+1743158682 source:c:\users\hello\onedrive - vnu.edu.vn\desktop\let's_go_lucario\main_character.cpp
 	"main_character.h"
 
 1742729675 source:c:\users\hello\onedrive - vnu.edu.vn\desktop\let's_go_lucario\map_object.cpp
@@ -50,7 +51,7 @@
 	"base_function.h"
 	"constants.h"
 
-1743086741 c:\users\hello\onedrive - vnu.edu.vn\desktop\let's_go_lucario\mob_object.h
+1743157468 c:\users\hello\onedrive - vnu.edu.vn\desktop\let's_go_lucario\mob_object.h
 	<iostream>
 	<cmath>
 	<SDL_image.h>
@@ -60,7 +61,7 @@
 	"map_object.h"
 	"bullet_object.h"
 
-1743086526 source:c:\users\hello\onedrive - vnu.edu.vn\desktop\let's_go_lucario\mob_object.cpp
+1743157468 source:c:\users\hello\onedrive - vnu.edu.vn\desktop\let's_go_lucario\mob_object.cpp
 	"mob_object.h"
 
 1742567204 c:\users\hello\onedrive - vnu.edu.vn\desktop\let's_go_lucario\random.h
@@ -77,22 +78,23 @@
 	"InitScreen.h"
 	"constants.h"
 
-1743088242 c:\users\hello\onedrive - vnu.edu.vn\desktop\let's_go_lucario\base_function.h
+1743150454 c:\users\hello\onedrive - vnu.edu.vn\desktop\let's_go_lucario\base_function.h
 	<SDL.h>
 	<SDL_image.h>
 	<iostream>
 	<SDL_ttf.h>
+	<SDL_mixer.h>
 
-1743130224 source:c:\users\hello\onedrive - vnu.edu.vn\desktop\let's_go_lucario\base_function.cpp
+1743150454 source:c:\users\hello\onedrive - vnu.edu.vn\desktop\let's_go_lucario\base_function.cpp
 	"base_function.h"
 	"constants.h"
 
-1742887587 c:\users\hello\onedrive - vnu.edu.vn\desktop\let's_go_lucario\bullet_object.h
+1743157468 c:\users\hello\onedrive - vnu.edu.vn\desktop\let's_go_lucario\bullet_object.h
 	<SDL_image.h>
 	"base_function.h"
 	"constants.h"
 
-1743084812 source:c:\users\hello\onedrive - vnu.edu.vn\desktop\let's_go_lucario\bullet_object.cpp
+1743157468 source:c:\users\hello\onedrive - vnu.edu.vn\desktop\let's_go_lucario\bullet_object.cpp
 	"bullet_object.h"
 
 1742985916 source:c:\users\hello\onedrive - vnu.edu.vn\desktop\let's_go_lucario\other_on_screen.cpp
@@ -109,6 +111,13 @@
 	"base_function.h"
 	"constants.h"
 
-1743132872 source:c:\users\hello\onedrive - vnu.edu.vn\desktop\let's_go_lucario\menu_game.cpp
+1743133084 source:c:\users\hello\onedrive - vnu.edu.vn\desktop\let's_go_lucario\menu_game.cpp
 	"menu_game.h"
+
+1743149955 source:c:\users\hello\onedrive - vnu.edu.vn\desktop\let's_go_lucario\mixer.cpp
+	"mixer.h"
+
+1743159046 c:\users\hello\onedrive - vnu.edu.vn\desktop\let's_go_lucario\mixer.h
+	"SDL_mixer.h"
+	"base_function.h"
 

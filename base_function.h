@@ -5,6 +5,7 @@
 #include <SDL_image.h>
 #include <iostream>
 #include <SDL_ttf.h>
+#include <SDL_mixer.h>
 
 using namespace std;
 
@@ -16,6 +17,8 @@ void renderTexture(SDL_Texture *texture, float x, float y, SDL_Renderer* rendere
 SDL_Texture *loadTexture(const char *filename, SDL_Renderer* renderer);
 SDL_bool SDL_HasIntersectionF(const SDL_FRect& A, const SDL_FRect& B);
 SDL_Texture* createTextTexture(SDL_Renderer* renderer, const string& text, const string& fontPath, SDL_Color color, int fontSize);
+Mix_Chunk* loadSoundEffect(Mix_Chunk* sound, const char *name_sound);
+Mix_Music* loadBackgroundMusic(Mix_Music* music, const char *name_sound);
 
 #endif // _BASE_FUNCTION_H
 
