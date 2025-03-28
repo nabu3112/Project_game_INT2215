@@ -21,8 +21,7 @@ struct map_object_{
     int map_height;
 
     int level=1;
-    int tilemap[60][106];
-    //float x_start, y_start, x_end, y_end;
+
     int tile_x_in_array;
     int tile_y_in_array;
 
