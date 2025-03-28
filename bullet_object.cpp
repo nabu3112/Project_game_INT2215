@@ -40,6 +40,7 @@ void bullet_object_::bullet_move()
 
     hitbox = {x_bullet_on_map, y_bullet_on_map, bullet_size*zoom_level, bullet_size*zoom_level};
 }
+
 bool bullet_object_::check_bullet_to_map()
 {
     if(dx>0){

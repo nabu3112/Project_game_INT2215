@@ -42,6 +42,8 @@
 		<Unit filename="main_character.h" />
 		<Unit filename="map_object.cpp" />
 		<Unit filename="map_object.h" />
+		<Unit filename="menu_game.cpp" />
+		<Unit filename="menu_game.h" />
 		<Unit filename="mob_object.cpp" />
 		<Unit filename="mob_object.h" />
 		<Unit filename="other_on_screen.cpp" />

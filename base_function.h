@@ -4,6 +4,7 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include <iostream>
+#include <SDL_ttf.h>
 
 using namespace std;
 
@@ -14,6 +15,7 @@ void quitSDL(SDL_Window* window, SDL_Renderer* renderer);
 void renderTexture(SDL_Texture *texture, float x, float y, SDL_Renderer* renderer);
 SDL_Texture *loadTexture(const char *filename, SDL_Renderer* renderer);
 SDL_bool SDL_HasIntersectionF(const SDL_FRect& A, const SDL_FRect& B);
+SDL_Texture* createTextTexture(SDL_Renderer* renderer, const string& text, const string& fontPath, SDL_Color color, int fontSize);
 
 #endif // _BASE_FUNCTION_H
 

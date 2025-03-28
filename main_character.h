@@ -12,6 +12,7 @@ using namespace std;
 #include "base_function.h"
 #include "map_object.h"
 #include "other_on_screen.h"
+#include "menu_game.h"
 
 struct mainc {
     float x_on_map = 1824;
@@ -67,9 +68,6 @@ struct mainc {
     SDL_Rect frame_;
     SDL_Rect paralyzed_frame;
 
-    SDL_Event event;
-    bool keys[SDL_NUM_SCANCODES]= {false};
-
     Uint32 paralyzed_start_time = 0;
     Uint32 paralyzed_durution = 2000;
 
@@ -79,7 +77,7 @@ struct mainc {
     SDL_Rect kick_clip[4];
     SDL_Rect win_clip[3];
 
-    mainc(SDL_Renderer* renderer, const int& n){
+    mainc(SDL_Renderer* renderer){
         main_stand = loadTexture("Image//lucario_stand.png", renderer);
         main_run = loadTexture("Image//lucario_run.png", renderer);
         main_punch = loadTexture("Image//lucario_punch.png", renderer);
@@ -103,7 +101,6 @@ struct mainc {
         sprite.x= SCREEN_WIDTH/2 - size_frame/2;
         sprite.y= SCREEN_HEIGHT/2 - size_frame/2;
 
-        index_to_win = n;
     }
 
     ~mainc(){
@@ -117,7 +114,7 @@ struct mainc {
         main_kick=NULL;
     }
 
-    void main_move(bool& running, map_object_& map_game);
+    void main_move(bool keys[], map_object_& map_game);
     void check_to_map();
 
     void set_clips_stand();
@@ -132,7 +129,7 @@ struct mainc {
     void render_effect_paralyzed(SDL_Renderer* renderer);
     void handle_paralyzed(SDL_Renderer* renderer);
     void play_win_animation(SDL_Renderer* renderer);
-    void pick_up_item(SDL_Renderer* renderer, vector<SDL_FRect>& item_coordinate, on_screen_object& on_screen);
+    void pick_up_item(SDL_Renderer* renderer, vector<SDL_FRect>& item_coordinate, on_screen_object& on_screen, bool (&keys)[SDL_NUM_SCANCODES], SDL_Event& event);
 };
 
 

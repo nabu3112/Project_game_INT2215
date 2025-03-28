@@ -1,6 +1,7 @@
 #include <iostream>
 #include <SDL.h>
 #include <SDL_image.h>
+#include <SDL_ttf.h>
 #include <vector>
 
 #include "base_function.h"
@@ -9,6 +10,7 @@
 #include "map_object.h"
 #include "mob_object.h"
 #include "other_on_screen.h"
+#include "menu_game.h"
 
 using namespace std;
 
@@ -31,10 +33,10 @@ void handle_mob(SDL_Renderer* renderer, map_object_& map_game, mob_object_& mob,
     mob.handle_bullet_move(renderer, mcharacter.x_on_map, mcharacter.y_on_map, mcharacter.hitbox, mcharacter.hp, mcharacter.running_speed, mcharacter.slow_speed, mcharacter.is_paralyzed, mcharacter.paralyzed_start_time);
 }
 
-void init_mob(vector<mob_object_>& all_mob, SDL_Renderer* renderer, SDL_Texture* mob_texture, SDL_Texture* bullet_texture, SDL_Texture* mob_healthbar_texture)
+void init_mob(vector<mob_object_>& all_mob, SDL_Renderer* renderer, SDL_Texture* mob_texture, SDL_Texture* bullet_texture, SDL_Texture* mob_healthbar_texture,const float& x_main, const float& y_main, const int& size_main)
 {
     for(int i=0; i<2; i++){
-        mob_object_ mob(renderer, mob_texture, bullet_texture, mob_healthbar_texture, mob_coordinates[i][0], mob_coordinates[i][1], 1.5);
+        mob_object_ mob(renderer, mob_texture, bullet_texture, mob_healthbar_texture, mob_coordinates[i][0], mob_coordinates[i][1], 1.5, x_main, y_main, size_main);
         all_mob.push_back(mob);
     }
 }
@@ -46,45 +48,68 @@ int main(int argc, char *argv[])
 
     map_object_ map_game(renderer);
 
-    SDL_Texture* mob_texture = loadTexture("Image//rotom.png", renderer);
-    SDL_Texture* bullet_texture = loadTexture("Image//electro_ball.png", renderer);
-    SDL_Texture* mob_healthbar_texture = loadTexture("Image//mob_healthbar1.png", renderer);
-
-    vector <mob_object_> all_mob;
-    init_mob(all_mob, renderer, mob_texture, bullet_texture, mob_healthbar_texture);
-
-    mob_object_ mob(renderer, mob_texture, bullet_texture, mob_healthbar_texture, 720, 1824, 6);
-    all_mob.push_back(mob);
-
-    mainc mcharacter(renderer, all_mob.size());
+    mainc mcharacter(renderer);
     mcharacter.set_clips_stand();
     mcharacter.set_clips_run();
     mcharacter.set_clips_punch();
     mcharacter.set_clips_kick();
 
+    SDL_Texture* mob_texture = loadTexture("Image/rotom.png", renderer);
+    SDL_Texture* bullet_texture = loadTexture("Image/electro_ball.png", renderer);
+    SDL_Texture* mob_healthbar_texture = loadTexture("Image/mob_healthbar1.png", renderer);
+
+    vector <mob_object_> all_mob;
+    init_mob(all_mob, renderer, mob_texture, bullet_texture, mob_healthbar_texture, mcharacter.x_on_map, mcharacter.y_on_map, mcharacter.size_frame);
+
+    mob_object_ mob(renderer, mob_texture, bullet_texture, mob_healthbar_texture, 720, 1824, 4, mcharacter.x_on_map, mcharacter.y_on_map, mcharacter.size_frame);
+    all_mob.push_back(mob);
+
+    mcharacter.index_to_win = all_mob.size();
+
     on_screen_object on_screen(renderer);
 
     bool running = true;
+    //bool is_pause = false;
+    bool keys[SDL_NUM_SCANCODES]= {false};
+    SDL_Event event;
+
+    render_start_menu(renderer, event);
 
     while(running){
+        while(SDL_PollEvent(&event)){
+            if( event.type == SDL_KEYDOWN){
+                if(event.key.keysym.sym == SDLK_p){
+                    pause_game(renderer, event, keys, running);
+                }
+                keys[event.key.keysym.scancode]= true;
+            }else if( event.type == SDL_KEYUP){
+                keys[event.key.keysym.scancode]= false;
+            }
+        }
+
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderClear( renderer );
 
-        mcharacter.main_move(running, map_game);
+        mcharacter.main_move(keys, map_game);
         map_game.init_map_coordinate(mcharacter.x_on_map, mcharacter.y_on_map);
 
         map_game.renderTexture_Map(renderer, 1);
 
-        for(int i = all_mob.size()-1; i>=0; i--){
+        for(int i =0; i< mcharacter.index_to_win; i++){
             all_mob[i].set_distance_to_main(mcharacter.x_on_map, mcharacter.y_on_map, mcharacter.size_frame);
             if(all_mob[i].in_radian_of_main){
-                if(mcharacter.is_attacking && mcharacter.deal_damage){
-                    mcharacter.attack_to_mob(all_mob[i].mob_hitbox, all_mob[i].hp);
-                }
                 handle_mob(renderer, map_game, all_mob[i], mcharacter);
-                if(all_mob[i].hp <= 0){
-                    all_mob.erase(all_mob.begin() + i);
-                    mcharacter.index_to_win --;
+            }
+        }
+        if(mcharacter.deal_damage){
+            for(int i =0; i< mcharacter.index_to_win; i++){
+                if(all_mob[i].in_radian_of_main){
+                    mcharacter.attack_to_mob(all_mob[i].mob_hitbox, all_mob[i].hp);
+                    if(all_mob[i].hp <= 0){
+                        all_mob.erase(all_mob.begin() + i);
+                        mcharacter.index_to_win --;
+                        i--;
+                    }
                 }
             }
         }
@@ -97,7 +122,7 @@ int main(int argc, char *argv[])
         map_game.renderTexture_Map(renderer, 2);
         on_screen.render_health_bar(renderer, mcharacter.hp, mcharacter.energy);
 
-        mcharacter.pick_up_item(renderer, map_game.item_coordinate, on_screen);
+        mcharacter.pick_up_item(renderer, map_game.item_coordinate, on_screen, keys, event);
 
         SDL_RenderPresent( renderer );
         SDL_Delay(30);

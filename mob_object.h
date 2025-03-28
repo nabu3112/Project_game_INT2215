@@ -24,11 +24,12 @@ struct mob_object_{
     float vector_x_to_main;
     float vector_y_to_main;
     float distance_to_main;
+    float distance_before_to_main;
 
     int max_hp=5;
     int hp=5;
-    int running_speed=10;
-    int attack_speed=5;
+    int running_speed=7;
+    //int attack_speed=5;
 
     bool attack = 0;
     bool right_with_main=0;
@@ -56,7 +57,9 @@ struct mob_object_{
 
     Uint32 last_shoot_time =0;
 
-    mob_object_(SDL_Renderer* renderer, SDL_Texture* mob_texture, SDL_Texture* bullet_texture, SDL_Texture* mob_healthbar, int _x_on_map, int _y_on_map, float _zoom_level){
+    mob_object_(SDL_Renderer* renderer, SDL_Texture* mob_texture, SDL_Texture* bullet_texture, SDL_Texture* mob_healthbar,
+                const int& _x_on_map, const int& _y_on_map, float _zoom_level, const float& x_main, const float& y_main, const int& size_main){
+
         texture_mob = mob_texture;
         texture_skill = bullet_texture;
         texture_healthbar = mob_healthbar;
@@ -77,6 +80,10 @@ struct mob_object_{
             max_hp *= pow(2,_zoom_level);
             hp = max_hp;
         }
+
+        vector_x_to_main = (x_main + size_main/2) - (x_on_map + mob_size*zoom_level/2);
+        vector_y_to_main = (y_main + size_main/2) - (y_on_map + mob_size*zoom_level/2);
+        distance_to_main = sqrt( vector_x_to_main*vector_x_to_main + vector_y_to_main*vector_y_to_main );
     }
     /*~mob_object_(){
         SDL_DestroyTexture(texture_mob);

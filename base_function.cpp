@@ -10,6 +10,8 @@ SDL_Window* initSDL(int SCREEN_WIDTH, int SCREEN_HEIGHT, const char* WINDOW_TITL
 {
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
         logErrorAndExit("SDL_Init", SDL_GetError());
+    if (TTF_Init() !=0)
+        logErrorAndExit("TTF_Init", SDL_GetError());
 
     SDL_Window* window = SDL_CreateWindow(WINDOW_TITLE, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
     //SDL_Window* window = SDL_CreateWindow(WINDOW_TITLE, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_FULLSCREEN_DESKTOP);
@@ -61,4 +63,26 @@ SDL_bool SDL_HasIntersectionF(const SDL_FRect& A, const SDL_FRect& B)
     }else{
         return SDL_FALSE;
     }
+}
+
+SDL_Texture* createTextTexture(SDL_Renderer* renderer, const string& text, const string& fontPath, SDL_Color color, int fontSize) {
+
+    TTF_Font* font = TTF_OpenFont(fontPath.c_str(), fontSize);
+    if (font == NULL) {
+        cout << "Failed to load font: " << TTF_GetError() << endl;
+        return NULL;
+    }
+
+    SDL_Surface* surface = TTF_RenderUTF8_Blended(font, text.c_str(), color);
+    if (surface == NULL) {
+        cout << "Failed to create surface: " << TTF_GetError() << endl;
+        TTF_CloseFont(font);
+        return NULL;
+    }
+
+    SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
+    SDL_FreeSurface(surface);
+    TTF_CloseFont(font);
+
+    return texture;
 }

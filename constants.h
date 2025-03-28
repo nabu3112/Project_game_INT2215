@@ -1,6 +1,8 @@
 #ifndef _CONSTANTS_H
 #define _CONSTANTS_H
 
+#include <SDL.h>
+
 const int SCREEN_HEIGHT = 768;
 const int SCREEN_WIDTH = 1248;
 const int TILE_SIZE = 48;
@@ -62,5 +64,9 @@ const int mob_coordinates[2][2]={
     {1700, 500},
     {1700, 700}
 };
+
+const std::string NORMAL_FONT_LINK = "fonts/courbd.ttf";
+
+const SDL_Color color= {255, 255, 255};
 
 #endif // _CONSTANTS_H

@@ -1,20 +1,11 @@
 #include "main_character.h"
 
-void mainc::main_move(bool& running, map_object_& map_game)
+void mainc::main_move(bool keys[], map_object_& map_game)
 {
-    while(SDL_PollEvent(&event)){
-        if(event.type == SDL_QUIT){
-            running = false;
-        }else if( event.type == SDL_KEYDOWN){
-            keys[event.key.keysym.scancode]= true;
-            if(event.key.keysym.sym == SDLK_RETURN) running = false;
-        }else if( event.type == SDL_KEYUP){
-            keys[event.key.keysym.scancode]= false;
-        }
-    }
     dx=0;
     dy=0;
 
+    //if(keys[SDL_SCANCODE_P]) is_pause=true;
     if(index_to_win <=0){
         state = 4;
     }
@@ -154,8 +145,8 @@ void mainc::playMainAnimation(SDL_Renderer* renderer)
                 state=0;
                 is_attacking = 0;
                 if(energy<4) energy++;
-                deal_damage =1;
             }
+            if(punch_frame == 6) deal_damage =1;
 
         }else if(state == 3 && energy == 4){
             frame_ = kick_clip[(kick_frame-1)/3];
@@ -170,8 +161,8 @@ void mainc::playMainAnimation(SDL_Renderer* renderer)
                 state=0;
                 is_attacking = 0;
                 energy=0;
-                deal_damage =1;
             }
+            if(kick_frame == 12) deal_damage =1;
         }
         if(left_or_right){
             SDL_RenderCopy(renderer, texture_now, &frame_, &sprite);
@@ -248,7 +239,7 @@ void mainc::play_win_animation(SDL_Renderer* renderer)
     SDL_RenderCopy(renderer, main_win, &frame_, &sprite);
 }
 
-void mainc::pick_up_item(SDL_Renderer* renderer, vector<SDL_FRect>& item_coordinate, on_screen_object& on_screen)
+void mainc::pick_up_item(SDL_Renderer* renderer, vector<SDL_FRect>& item_coordinate, on_screen_object& on_screen, bool (&keys)[SDL_NUM_SCANCODES], SDL_Event& event)
 {
     hitbox.y += size_frame;
     hitbox.h -= size_frame;
