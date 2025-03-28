@@ -48,7 +48,7 @@ struct on_screen_object{
         texture_menu_upgrade = NULL;
     }
 
-    void render_health_bar(SDL_Renderer* renderer, const int& main_hp, const int& main_energy);
+    void render_health_bar(SDL_Renderer* renderer, const int& main_hp, const int& main_energy, const int& main_hp_max);
     void render_menu_upgrade(SDL_Renderer* renderer);
 
 };

@@ -1,12 +1,12 @@
 #include "other_on_screen.h"
 
 
-void on_screen_object::render_health_bar(SDL_Renderer* renderer, const int& main_hp, const int& main_energy)
+void on_screen_object::render_health_bar(SDL_Renderer* renderer, const int& main_hp, const int& main_hp_max, const int& main_energy)
 {
     SDL_SetRenderDrawColor(renderer, 70, 70, 70, 255);
     SDL_RenderFillRect(renderer, &background_healthbar);
 
-    blood_healthbar.w = main_hp/100.0 * 378;
+    blood_healthbar.w = main_hp*1.0/main_hp_max * 378;
     if(main_hp >= 0){
         SDL_SetRenderDrawColor(renderer, 255, 70, 70, 255);
         SDL_RenderFillRectF(renderer, &blood_healthbar);

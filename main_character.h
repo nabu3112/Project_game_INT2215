@@ -24,11 +24,11 @@ struct mainc {
     float dx=0;
     float dy=0;
 
-    int hp = 100;
-    int max_hp = 100;
+    int hp = 200;
+    int max_hp = 200;
     int running_speed = 10;
-    int slow_speed = 1;
     int base_speed = 10;
+    int max_speed = 10;
     int energy=0;
     int damage_punch = 5;
     int damage_kick = 2*damage_punch;
@@ -49,7 +49,7 @@ struct mainc {
     bool punch_or_kick=0;
     bool is_paralyzed = 0;
     bool deal_damage = 0;
-    int is_hit = 0;
+    bool is_hit = 0;
 
     int stand_frame=1;
     int run_frame=1;

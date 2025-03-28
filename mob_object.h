@@ -29,7 +29,6 @@ struct mob_object_{
     int max_hp=5;
     int hp=5;
     int running_speed=7;
-    //int attack_speed=5;
 
     bool attack = 0;
     bool right_with_main=0;
@@ -58,7 +57,7 @@ struct mob_object_{
     Uint32 last_shoot_time =0;
 
     mob_object_(SDL_Renderer* renderer, SDL_Texture* mob_texture, SDL_Texture* bullet_texture, SDL_Texture* mob_healthbar,
-                const int& _x_on_map, const int& _y_on_map, float _zoom_level, const float& x_main, const float& y_main, const int& size_main){
+                const float& _x_on_map, const float& _y_on_map, const float& _zoom_level, const float& x_main, const float& y_main, const int& size_main){
 
         texture_mob = mob_texture;
         texture_skill = bullet_texture;
@@ -88,11 +87,10 @@ struct mob_object_{
 
     SDL_Rect set_clips_mob();
     void set_distance_to_main(const float& x_main, const float& y_main, const int& size_main);
-    void mob_move(map_object_& map_game, const float& x_main, const float& y_main,const float& dx_main,const float& dy_main);
     void loadAnimationMob(SDL_Renderer* renderer, const float& x, const float& y);
     void mob_attack(SDL_Renderer* renderer, const float& x_main, const float& y_main, const int& size_main);
     void handle_bullet_move(SDL_Renderer* renderer, const float& x_main, const float& y_main, const SDL_FRect& hitbox_main
-                            , int& main_hp, int& main_speed, const int& main_slow_speed, bool& main_is_paralyzed, Uint32& paralyzed_start_time, Mix_Chunk* sound1, Mix_Chunk* sound2);
+                            , int& main_hp, int& main_speed, bool& main_is_paralyzed, Uint32& paralyzed_start_time, Mix_Chunk* sound1, Mix_Chunk* sound2);
     void mob_healthbar(SDL_Renderer* renderer);
 };
 

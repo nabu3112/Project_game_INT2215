@@ -14,21 +14,8 @@ void mob_object_::set_distance_to_main(const float& x_main, const float& y_main,
         vector_y_to_main/=distance_to_main;
     }
 
-}
-
-void mob_object_::mob_move(map_object_& map_game, const float& x_main, const float& y_main, const float& dx_main, const float& dy_main)
-{
-    if(zoom_level<4 && distance_to_main < distance_before_to_main){
-        right_with_main = (x_on_map > x_main);
-        dx = (-1)*running_speed*vector_x_to_main;
-        dy = (-1)*running_speed*vector_y_to_main;
-    }
-    x_on_map += dx;
-    y_on_map += dy;
+    right_with_main = (x_on_map > x_main);
     mob_hitbox= {x_on_map + mob_size*zoom_level/3, y_on_map, mob_size*zoom_level/3, mob_size*zoom_level};
-    map_game.check_to_map(mob_hitbox, x_on_map, y_on_map, dx, dy);
-    dx=0;
-    dy=0;
 
 }
 
@@ -80,12 +67,12 @@ void mob_object_::mob_attack(SDL_Renderer* renderer, const float& x_main, const 
 }
 
 void mob_object_::handle_bullet_move(SDL_Renderer* renderer, const float& x_main, const float& y_main, const SDL_FRect& hitbox_main
-                                    , int& main_hp, int& main_speed, const int& main_slow_speed, bool& main_is_paralyzed, Uint32& paralyzed_start_time,  Mix_Chunk* sound1, Mix_Chunk* sound2)
+                                    , int& main_hp, int& main_speed, bool& main_is_paralyzed, Uint32& paralyzed_start_time,  Mix_Chunk* sound1, Mix_Chunk* sound2)
 {
     for(int i=0; i<skill.size(); i++){
         skill[i].bullet_move();
         skill[i].play_bullet_animation(renderer, x_on_map, y_on_map, x_main, y_main, mob_size);
-        if(skill[i].check_bullet_to_map() || skill[i].daim_on_main( hitbox_main, main_hp, main_speed, main_slow_speed, main_is_paralyzed, paralyzed_start_time, sound1, sound2)){
+        if(skill[i].check_bullet_to_map() || skill[i].daim_on_main( hitbox_main, main_hp, main_speed, main_is_paralyzed, paralyzed_start_time, sound1, sound2)){
             skill.erase(skill.begin() + i);
             i--;
         }

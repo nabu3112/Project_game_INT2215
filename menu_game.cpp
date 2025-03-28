@@ -33,7 +33,7 @@ void render_start_menu(SDL_Renderer* renderer, SDL_Event& event)
     start_menu = NULL;
 }
 
-void pause_game(SDL_Renderer* renderer, SDL_Event& event, bool (&keys)[SDL_NUM_SCANCODES], bool& running)
+void pause_game(SDL_Renderer* renderer, SDL_Event& event, bool (&keys)[SDL_NUM_SCANCODES], bool& running, bool& restart_game)
 {
     SDL_Rect rect;
     render_pause_menu(renderer, rect);
@@ -50,6 +50,7 @@ void pause_game(SDL_Renderer* renderer, SDL_Event& event, bool (&keys)[SDL_NUM_S
                     render_quit_menu(renderer, rect);
                 }else if(event.key.keysym.sym == SDLK_y && confirm_quit){
                     running = false;
+                    restart_game = false;
                     break;
                 }else if(event.key.keysym.sym == SDLK_n && confirm_quit){
                     render_pause_menu(renderer, rect);
@@ -169,4 +170,43 @@ void render_tutorial_menu(SDL_Renderer* renderer, SDL_Rect& rect)
     SDL_DestroyTexture(text);
 
     SDL_RenderPresent(renderer);
+}
+
+void lose_screen(SDL_Renderer* renderer, SDL_Event& event, bool& restart_game, bool (&keys)[SDL_NUM_SCANCODES])
+{
+    SDL_Texture* game_over_screen = loadTexture("Image/game_over.jpg", renderer);
+
+    SDL_Rect rect = {0, 0, SCREEN_WIDTH, SCREEN_HEIGHT};
+
+    SDL_RenderCopy(renderer, game_over_screen, NULL, &rect);
+
+    SDL_Texture* text = createTextTexture(renderer, "Do you want to restart?", NORMAL_FONT_LINK, color, 24);
+    SDL_QueryTexture(text, NULL, NULL, &rect.w, &rect.h);
+    rect.y = SCREEN_HEIGHT - 4*rect.h;
+    rect.x = (SCREEN_WIDTH - rect.w)/2;
+    SDL_RenderCopy(renderer, text, NULL, &rect);
+    SDL_DestroyTexture(text);
+
+    text = createTextTexture(renderer, "[Y]: Yes   [N]: No", NORMAL_FONT_LINK, color, 24);
+    SDL_QueryTexture(text, NULL, NULL, &rect.w, &rect.h);
+    rect.y += rect.h*2;
+    rect.x = (SCREEN_WIDTH - rect.w)/2;
+    SDL_RenderCopy(renderer, text, NULL, &rect);
+    SDL_DestroyTexture(text);
+
+    SDL_RenderPresent(renderer);
+    memset(keys, 0 , sizeof(keys));
+    while(true)
+    {
+        if(SDL_WaitEvent(&event)!=0){
+            if(event.type == SDL_KEYDOWN){
+                if(event.key.keysym.sym == SDLK_y) break;
+                else if(event.key.keysym.sym == SDLK_n){
+                    restart_game = false;
+                    break;
+                }
+            }
+        }
+    }
+
 }

@@ -5,7 +5,6 @@ void mainc::main_move(bool keys[], map_object_& map_game)
     dx=0;
     dy=0;
 
-    //if(keys[SDL_SCANCODE_P]) is_pause=true;
     if(index_to_win <=0){
         state = 4;
     }
@@ -178,7 +177,6 @@ void mainc::check_alive()
         x_on_map = x_check_point;
         y_on_map = x_check_point;
         hp = max_hp;
-        //is_paralyzed = 0;
     }
 }
 
@@ -195,12 +193,12 @@ void mainc::attack_to_mob(SDL_FRect& mob_hitbox, int& mob_hp)
         if(SDL_HasIntersectionF( punch_box, mob_hitbox) ){
             is_hit = 1;
             mob_hp -= damage_punch;
-        }else is_hit = 2;
+        }
     }else{
         if(SDL_HasIntersectionF( kick_box, mob_hitbox) ){
             is_hit = 1;
             mob_hp -= damage_kick;
-        }else is_hit = 2;
+        }
     }
     deal_damage =0;
 }
@@ -249,18 +247,16 @@ bool mainc::pick_up_item(SDL_Renderer* renderer, vector<SDL_FRect>& item_coordin
     for(int i=item_coordinate.size()-1; i>=0; i--){
         if(SDL_HasIntersectionF(hitbox, item_coordinate[i])){
             on_screen.render_menu_upgrade(renderer);
-            x_check_point = item_coordinate[i].x;
-            y_check_point = item_coordinate[i].y;
             memset(keys, 0 , sizeof(keys));
             while(true)
             {
                 if(SDL_PollEvent(&event)){
                     if(event.key.keysym.sym == SDLK_1){
-                        hp = min(hp+20, max_hp);
+                        hp = min(hp+40, max_hp);
                         break;
                     }else if(event.key.keysym.sym == SDLK_2){
                         running_speed += 1;
-                        base_speed += 1;
+                        max_speed += 1;
                         break;
                     }else if(event.key.keysym.sym == SDLK_3){
                         damage_punch +=2;

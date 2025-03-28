@@ -49,6 +49,6 @@ struct bullet_object_{
     void play_bullet_animation(SDL_Renderer* renderer, const float& x_mob , const float& y_mob,const float& x_main, const float& y_main, const float& mob_size);
     void bullet_move();
     bool check_bullet_to_map();
-    bool daim_on_main(const SDL_FRect& main_hitbox, int& main_hp, int& main_speed, const int& main_slow_speed, bool& main_is_paralyzed, Uint32& paralyzed_start_time, Mix_Chunk* sound1, Mix_Chunk* sound2);
+    bool daim_on_main(const SDL_FRect& main_hitbox, int& main_hp, int& main_speed, bool& main_is_paralyzed, Uint32& paralyzed_start_time, Mix_Chunk* sound1, Mix_Chunk* sound2);
 };
 #endif // _BULLET_OBJECT_H
