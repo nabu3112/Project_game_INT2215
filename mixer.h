@@ -13,6 +13,8 @@ struct sound{
     Mix_Chunk* attack_to_air_sound = NULL;
     Mix_Chunk* paralyzed_sound = NULL;
     Mix_Chunk* basic_bullet_sound = NULL;
+    int volume_music = 8;
+    int volume_sound_effect = 8;
 
     sound(){
         background_music = loadBackgroundMusic(background_music, "Sounds/Pokemon_Red_Blue_Opening.mp3");

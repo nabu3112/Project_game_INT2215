@@ -16,7 +16,7 @@ struct bullet_object_{
     float direction_bullet_y;
 
     int speed=5;
-    int damage=2;
+    int damage=3;
 
     int state_frame=1;
     int bullet_size;

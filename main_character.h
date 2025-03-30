@@ -32,6 +32,7 @@ struct mainc {
     int energy=0;
     int damage_punch = 5;
     int damage_kick = 2*damage_punch;
+    int life = 2;
 
     SDL_Texture* main_stand;
     SDL_Texture* main_run;

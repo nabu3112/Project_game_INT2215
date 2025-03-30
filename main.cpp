@@ -21,7 +21,7 @@ void handle_mob(SDL_Renderer* renderer, map_object_& map_game, mob_object_& mob,
     mob.mob_healthbar(renderer);
 
     current_time = SDL_GetTicks();
-    if (current_time > mob.last_shoot_time + 2000)
+    if (current_time > mob.last_shoot_time + 3000)
     {
         mob.mob_attack(renderer, mcharacter.x_on_map, mcharacter.y_on_map, mcharacter.size_frame);
         mob.last_shoot_time = current_time;
@@ -64,6 +64,9 @@ int main(int argc, char *argv[])
     bool keys[SDL_NUM_SCANCODES]= {false};
     SDL_Event event;
 
+    Mix_VolumeMusic(all_sound_effect.volume_music);
+    Mix_Volume(-1, all_sound_effect.volume_sound_effect);
+
     Mix_PlayMusic(all_sound_effect.background_music, -1);
     render_start_menu(renderer, event);
     Mix_HaltMusic();
@@ -87,7 +90,7 @@ int main(int argc, char *argv[])
             while(SDL_PollEvent(&event)){
                 if( event.type == SDL_KEYDOWN){
                     if(event.key.keysym.sym == SDLK_p){
-                        pause_game(renderer, event, keys, running, restart_game);
+                        pause_game(renderer, event, keys, running, restart_game, all_sound_effect.volume_music, all_sound_effect.volume_sound_effect);
                     }
                     if(mcharacter.index_to_win <=0 && event.key.keysym.sym == SDLK_RETURN){
                         running = false;
@@ -147,17 +150,19 @@ int main(int argc, char *argv[])
             }
 
             if(mcharacter.hp <= 0){
-                if(map_game.item_coordinate.size()==0 && all_mob.size()<=7){
+                if(mcharacter.life > 0 && map_game.item_coordinate.size()==0 && all_mob.size()<=7){
                     mcharacter.hp = mcharacter.max_hp;
                     mcharacter.x_on_map = 2688;
                     mcharacter.y_on_map = 912;
                     mcharacter.running_speed = mcharacter.max_speed;
                     mcharacter.is_paralyzed = 0;
+                    for(int i=0; i< all_mob.size(); i++) all_mob[i].hp = all_mob[i].max_hp;
+                    mcharacter.life --;
                 }else{
                     all_mob.clear();
-                    all_mob.shrink_to_fit();
+                    //all_mob.shrink_to_fit();
                     map_game.item_coordinate.clear();
-                    map_game.item_coordinate.shrink_to_fit();
+                    //map_game.item_coordinate.shrink_to_fit();
                     lose_screen(renderer, event, restart_game, keys);
                     break;
                 }

@@ -28,11 +28,7 @@ struct map_object_{
     SDL_Texture* map_layer1;
     SDL_Texture* map_layer2;
 
-    vector <SDL_FRect> item_coordinate={
-        {912, 1104, TILE_SIZE, TILE_SIZE},
-        {1392, 1824, TILE_SIZE, TILE_SIZE},
-        {2688, 912, TILE_SIZE, TILE_SIZE}
-    };
+    vector <SDL_FRect> item_coordinate;
 
 
     map_object_(SDL_Renderer* renderer){
