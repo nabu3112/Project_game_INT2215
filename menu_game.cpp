@@ -2,7 +2,7 @@
 
 void render_start_menu(SDL_Renderer* renderer, SDL_Event& event)
 {
-    SDL_Texture* start_menu = loadTexture("Image//start_screen.png", renderer);
+    SDL_Texture* start_menu = loadTexture("Image//start_screen.jpg", renderer);
     SDL_Rect rect;
     SDL_Texture* text1 = createTextTexture(renderer, "Press any key to start", NORMAL_FONT_LINK, color, 36);
     SDL_Texture* text2 = createTextTexture(renderer, "(Note: Press [P] to pause game)", NORMAL_FONT_LINK, color, 18);
