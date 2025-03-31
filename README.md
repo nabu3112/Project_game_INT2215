@@ -1,7 +1,7 @@
 # Project_game_INT2215
 Họ và tên: Trần Hoài Nam
 Mã sinh viên: 24020247
-Chủ đề game: Game có tên là "Let's go lucario", thuộc thể loại top-down shooter, kết hợp với đồ họa được mượn ý tưởng từ tựa game pokemon. trong trò chơi, người chơi sẽ điểu khiển nhân vật là lucario, di chuyển xung quanh bản đồ tiêu diệt những con quái để dành được chiến thắng, trên đường đi sẽ có những vật phẩm, khi nhặt sẽ cường hóa chỉ số cho nhân vật. Những boss và mini boss của từng route sẽ có khả năng gây làm chậm người chơi. Người chơi chiến thắng khi tiêu diệ toàn bộ quái trên bản đồ. Nếu chết, người chơi sẽ phải chơi lại từ đầu trừ khi nhận được check point tiêu diệt hết các quái và nhặt vật phẩm trước phòng boss.
+Chủ đề game: Game có tên là "Let's go lucario", thuộc thể loại top-down shooter, kết hợp với đồ họa được mượn ý tưởng từ tựa game pokemon. trong trò chơi, người chơi sẽ điểu khiển nhân vật là lucario, di chuyển xung quanh bản đồ tiêu diệt những con quái để dành được chiến thắng, trên đường đi sẽ có những vật phẩm, khi nhặt sẽ cường hóa chỉ số cho nhân vật. Những boss và mini boss của từng route sẽ có khả năng gây làm chậm người chơi. Người chơi chiến thắng khi tiêu diệt toàn bộ quái trên bản đồ. Nếu chết, người chơi sẽ phải chơi lại từ đầu trừ khi nhận được check point tiêu diệt hết các quái và nhặt vật phẩm trước phòng boss. Khi check point, người chơi sẽ có thêm hai mạng để hoàn thành phòng boss.
 Ngưỡng điểm mong muốn : 9 điểm.
 Lý do: game của em có đồ họa tương đối nịnh mắt cùng hiệu ứng animation mượt mà, âm thanh phong phú cùng với gameplay thú vị. Về thuật toán game của em sử dụng kỹ thuật load 1 vùng lân cận nhân vật để giảm thiểu các bước tính toán làm tăng tốc độ xử lí game.
 Nguồn tham khảo:
