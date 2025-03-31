@@ -171,15 +171,6 @@ void mainc::playMainAnimation(SDL_Renderer* renderer)
     }
 }
 
-void mainc::check_alive()
-{
-    if(hp<=0){
-        x_on_map = x_check_point;
-        y_on_map = x_check_point;
-        hp = max_hp;
-    }
-}
-
 void mainc::attack_to_mob(SDL_FRect& mob_hitbox, int& mob_hp)
 {
     if(left_or_right){

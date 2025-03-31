@@ -15,6 +15,7 @@ const char* WINDOW_TITLE = "game";
 
 Uint32 current_time = SDL_GetTicks();
 
+//Xử lí thao tác gọi ra các hàm bên trong struct mob_object liên quan đến việc in ra màn hình, di chuyển và thao tác đếm thời gian ra đạn.
 void handle_mob(SDL_Renderer* renderer, map_object_& map_game, mob_object_& mob, mainc& mcharacter, Mix_Chunk* sound1, Mix_Chunk* sound2)
 {
     mob.loadAnimationMob(renderer, mcharacter.x_on_map, mcharacter.y_on_map);
@@ -30,6 +31,7 @@ void handle_mob(SDL_Renderer* renderer, map_object_& map_game, mob_object_& mob,
                            , mcharacter.running_speed, mcharacter.is_paralyzed, mcharacter.paralyzed_start_time, sound1, sound2);
 }
 
+//Khởi tạo các quái trên bản đồ thông qua tọa độ được truyền vào và nạp các quái được khởi tạo vào vector quái.
 void init_mob(vector<mob_object_>& all_mob, SDL_Renderer* renderer, SDL_Texture* mob_texture, SDL_Texture* bullet_texture, SDL_Texture* mob_healthbar_texture,const float& x_main, const float& y_main, const int& size_main)
 {
     for(int i=0; i<43; i++){
@@ -42,16 +44,17 @@ int main(int argc, char *argv[])
 {
     SDL_Window* window = initSDL(SCREEN_WIDTH, SCREEN_HEIGHT, WINDOW_TITLE);
     SDL_Renderer* renderer = createRenderer(window);
-    sound all_sound_effect;
 
     map_object_ map_game(renderer);
 
+    //Khởi tạo nhân vật chính.
     mainc mcharacter(renderer);
     mcharacter.set_clips_stand();
     mcharacter.set_clips_run();
     mcharacter.set_clips_punch();
     mcharacter.set_clips_kick();
 
+    //Khởi tạo texture dùng cho quái.
     SDL_Texture* mob_texture = loadTexture("Image/rotom.png", renderer);
     SDL_Texture* bullet_texture = loadTexture("Image/electro_ball.png", renderer);
     SDL_Texture* mob_healthbar_texture = loadTexture("Image/mob_healthbar1.png", renderer);
@@ -60,20 +63,27 @@ int main(int argc, char *argv[])
 
     on_screen_object on_screen(renderer);
 
+    //Các biến dùng cho vòng lặp chính.
     bool running = true;
     bool keys[SDL_NUM_SCANCODES]= {false};
+    bool restart_game = 1;
     SDL_Event event;
 
+    //Khởi tạo âm thanh của game.
+    sound all_sound_effect;
     Mix_VolumeMusic(all_sound_effect.volume_music);
     Mix_Volume(-1, all_sound_effect.volume_sound_effect);
-
     Mix_PlayMusic(all_sound_effect.background_music, -1);
-    render_start_menu(renderer, event);
+
+    render_start_menu(renderer, event);     //Màn hình chờ.
+
+    //Âm thanh trong game
     Mix_HaltMusic();
     Mix_PlayMusic(all_sound_effect.in_game_music, -1);
 
-    bool restart_game = 1;
+
     while(restart_game){
+        //Reset các chỉ số.
         mcharacter.hp = mcharacter.max_hp;
         mcharacter.x_on_map = mcharacter.x_check_point;
         mcharacter.y_on_map = mcharacter.y_check_point;
@@ -87,6 +97,7 @@ int main(int argc, char *argv[])
         map_game.item_coordinate.push_back({2688, 912, TILE_SIZE, TILE_SIZE});
 
         while(running){
+            //Nhận tín hiệu từ bàn phím.
             while(SDL_PollEvent(&event)){
                 if( event.type == SDL_KEYDOWN){
                     if(event.key.keysym.sym == SDLK_p){
@@ -110,12 +121,15 @@ int main(int argc, char *argv[])
 
             map_game.renderTexture_Map(renderer, 1);
 
+            //Xử lí các quái.
             for(int i =0; i< mcharacter.index_to_win; i++){
                 all_mob[i].set_distance_to_main(mcharacter.x_on_map, mcharacter.y_on_map, mcharacter.size_frame);
                 if(all_mob[i].in_radian_of_main){
                     handle_mob(renderer, map_game, all_mob[i], mcharacter, all_sound_effect.paralyzed_sound, all_sound_effect.basic_bullet_sound);
                 }
             }
+
+            //Xử lí thao tác tấn công của nhân vật chính.
             if(mcharacter.deal_damage){
                 for(int i =0; i< mcharacter.index_to_win; i++){
                     if(all_mob[i].in_radian_of_main){
@@ -133,6 +147,7 @@ int main(int argc, char *argv[])
             }
             mcharacter.is_hit=0;
 
+            //Kiểm tra chiến thắng
             if(mcharacter.index_to_win == 0){
                 Mix_HaltMusic();
                 Mix_PlayMusic(all_sound_effect.win_music, -1);
@@ -149,6 +164,7 @@ int main(int argc, char *argv[])
                 Mix_PlayChannel(-1, all_sound_effect.pick_up_item_sound, 0);
             }
 
+            //Kiểm tra máu về 0
             if(mcharacter.hp <= 0){
                 if(mcharacter.life > 0 && map_game.item_coordinate.size()==0 && all_mob.size()<=7){
                     mcharacter.hp = mcharacter.max_hp;
@@ -171,7 +187,6 @@ int main(int argc, char *argv[])
             SDL_Delay(30);
         }
     }
-
 
     SDL_DestroyTexture(mob_texture);
     SDL_DestroyTexture(bullet_texture);

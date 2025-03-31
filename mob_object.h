@@ -54,7 +54,7 @@ struct mob_object_{
     SDL_Texture* texture_skill;
     SDL_Texture* texture_healthbar;
 
-    Uint32 last_shoot_time =0;
+    Uint32 last_shoot_time = 0;
 
     mob_object_(SDL_Renderer* renderer, SDL_Texture* mob_texture, SDL_Texture* bullet_texture, SDL_Texture* mob_healthbar,
                 const float& _x_on_map, const float& _y_on_map, const float& _zoom_level, const float& x_main, const float& y_main, const int& size_main){

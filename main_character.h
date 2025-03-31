@@ -126,7 +126,6 @@ struct mainc {
     void set_clips_win();
 
     void playMainAnimation(SDL_Renderer* renderer);
-    void check_alive();
     void attack_to_mob(SDL_FRect& mob_hitbox, int& mob_hp);
     void render_effect_paralyzed(SDL_Renderer* renderer);
     void handle_paralyzed(SDL_Renderer* renderer);
