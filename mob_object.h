@@ -76,7 +76,7 @@ struct mob_object_{
         if(_zoom_level > 0){
             zoom_level = _zoom_level;
             running_speed /= _zoom_level;
-            max_hp *= (pow(_zoom_level, 3) - 1);
+            max_hp *= pow(2, _zoom_level);
             hp = max_hp;
         }
 

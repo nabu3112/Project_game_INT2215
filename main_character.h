@@ -24,15 +24,15 @@ struct mainc {
     float dx=0;
     float dy=0;
 
-    int hp = 200;
-    int max_hp = 200;
+    int hp = 150;
+    int max_hp = 150;
     int running_speed = 10;
     int base_speed = 10;
     int max_speed = 10;
     int energy=0;
     int damage_punch = 5;
     int damage_kick = 2*damage_punch;
-    int life = 2;
+    int life = 1;
 
     SDL_Texture* main_stand;
     SDL_Texture* main_run;

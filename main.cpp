@@ -22,7 +22,7 @@ void handle_mob(SDL_Renderer* renderer, map_object_& map_game, mob_object_& mob,
     mob.mob_healthbar(renderer);
 
     current_time = SDL_GetTicks();
-    if (current_time > mob.last_shoot_time + 3000)
+    if (current_time > mob.last_shoot_time + 2500)
     {
         mob.mob_attack(renderer, mcharacter.x_on_map, mcharacter.y_on_map, mcharacter.size_frame);
         mob.last_shoot_time = current_time;
